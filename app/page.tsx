@@ -3,6 +3,8 @@ import Image from "next/image";
 import HanziWriter from "hanzi-writer"
 import React, { useEffect, useState, useRef } from 'react';
 
+const characterArray = ['的', '一', '是', '不', '	了']
+
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
   const targetDivRef = useRef(null);
