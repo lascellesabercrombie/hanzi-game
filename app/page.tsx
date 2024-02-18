@@ -10,6 +10,15 @@ export default function Home() {
   const [chosenCharacter, setChosenCharacter] = useState('')
   const [characterMetadata, setCharacterMetadata] = useState(null)
   const targetDivRef = useRef(null);
+
+  useEffect(() => {
+    if (chosenCharacter) {
+      fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition`)
+        .then((response) => { console.log("response", response); return response.json() })
+        .then((data) => { console.log('data', data); setCharacterMetadata(data) })
+        .then(() => console.log('characterMetadata', setCharacterMetadata))
+    }
+  }, [chosenCharacter])
   useEffect(() => {
     if (showCard) {
       const targetDiv = targetDivRef.current
