@@ -9,14 +9,18 @@ export default function Home() {
   const [showCard, setShowCard] = useState(false)
   const [chosenCharacter, setChosenCharacter] = useState('')
   const [characterMetadata, setCharacterMetadata] = useState(null)
+  const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
+  const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
   const targetDivRef = useRef(null);
 
   useEffect(() => {
     if (chosenCharacter) {
-      fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition`)
+      fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition,kMandarin`)
         .then((response) => { console.log("response", response); return response.json() })
-        .then((data) => { console.log('data', data); setCharacterMetadata(data) })
-        .then(() => console.log('characterMetadata', setCharacterMetadata))
+        .then((data) => {
+          setCharacterMetadata({ "definition": data?.[0]?.["kDefinition"], "pronunciation": data?.[0]?.["kMandarin"]?.split(" ") })
+        })
+        .then(() => console.log('characterMetadata', characterMetadata))
     }
   }, [chosenCharacter])
   useEffect(() => {
@@ -43,9 +47,17 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {showCard &&
-        <div className="py-20 px-20 min-h-7 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
-          <div ref={targetDivRef}></div>
-        </div>}
+        <section>
+          <div className="flex flex-col py-20 px-4 min-w-6 min-h-7 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
+            <div className="flex justify-center" ref={targetDivRef}></div>
+            <div className="flex flex-col justify-center">
+              {isPronunciationVisible && <p>{characterMetadata?.pronunciation?.[0]}</p>}
+              {isDefinitionVisible && <p>{characterMetadata?.definition}</p>}
+            </div>
+          </div>
+          <button onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
+          <button onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} Definition`}</button>
+        </section>}
       {characterArray.map((character) =>
         <button key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
       )}
