@@ -45,22 +45,24 @@ export default function Home() {
   }, [chosenCharacter, showCard]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="flex flex-col">
         <h1 className="mx-auto">Character-full</h1>
         <h2>Practise writing Chinese characters</h2>
       </div>
       {showCard &&
-        <section>
-          <div className="flex flex-col py-20 px-4 min-w-6 min-h-7 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
+        <section className="flex flex-col">
+          <div className="flex flex-col pt-20 pb-4 px-4 max-h-72 min-w-64 min-h-64 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
             <div className="flex justify-center" ref={targetDivRef}></div>
             <div className="flex flex-col justify-center">
               {isPronunciationVisible && <p>{characterMetadata?.pronunciation?.[0]}</p>}
               {isDefinitionVisible && <p>{characterMetadata?.definition}</p>}
             </div>
           </div>
-          <button onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
-          <button onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} Definition`}</button>
+          <div className="flex flex-col items-start py-4 gap-4">
+            <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
+            <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} definition`}</button>
+          </div>
         </section>}
       <section className="flex flex-col">
         <div className="flex flex-col pb-4">
