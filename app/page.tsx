@@ -46,6 +46,10 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="flex flex-col">
+        <h1 className="mx-auto">Character-full</h1>
+        <h2>Practise writing Chinese characters</h2>
+      </div>
       {showCard &&
         <section>
           <div className="flex flex-col py-20 px-4 min-w-6 min-h-7 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
@@ -58,10 +62,16 @@ export default function Home() {
           <button onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
           <button onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} Definition`}</button>
         </section>}
-      <section className="grid grid-cols-4 gap-4">
-        {characterArray.map((character) =>
-          <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
-        )}
+      <section className="flex flex-col">
+        <div className="flex flex-col pb-4">
+          <h2 className="mx-auto">Your characters</h2>
+          <h3>Select a character to practise it</h3>
+        </div>
+        <div className="grid grid-cols-4 gap-4">
+          {characterArray.map((character) =>
+            <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
+          )}
+        </div>
       </section>
     </main>
   );
