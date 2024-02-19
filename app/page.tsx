@@ -58,9 +58,11 @@ export default function Home() {
           <button onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
           <button onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} Definition`}</button>
         </section>}
-      {characterArray.map((character) =>
-        <button key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
-      )}
+      <section className="grid grid-cols-4 gap-4">
+        {characterArray.map((character) =>
+          <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
+        )}
+      </section>
     </main>
   );
 }
