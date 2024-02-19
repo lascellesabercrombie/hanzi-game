@@ -45,7 +45,7 @@ export default function Home() {
   }, [chosenCharacter, showCard]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className="flex min-h-screen flex-col items-center justify-between py-8">
       <div className="flex flex-col">
         <h1 className="mx-auto">Character-full</h1>
         <h2>Practise writing Chinese characters</h2>
