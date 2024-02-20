@@ -16,7 +16,7 @@ export default function Home() {
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
-  const targetDivRef = useRef(null);
+  const targetDivRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
     if (chosenCharacter) {
@@ -30,22 +30,22 @@ export default function Home() {
   }, [chosenCharacter])
   useEffect(() => {
     if (showCard) {
-      const targetDiv = targetDivRef.current
+      const targetDiv: null | HTMLDivElement = targetDivRef.current
       if (targetDiv) {
         targetDiv.replaceChildren('')
       }
-
-      const writer = HanziWriter.create(targetDiv, chosenCharacter, {
-        width: 100,
-        height: 100,
-        padding: 5,
-      });
-      writer.quiz()
-      // Clean up function
-      return () => {
-        writer.cancelQuiz();
-        writer.hideCharacter();
-      };
+      if (targetDiv !== null) {
+        const writer = HanziWriter.create(targetDiv, chosenCharacter, {
+          width: 100,
+          height: 100,
+          padding: 5,
+        });
+        writer.quiz()
+        return () => {
+          writer.cancelQuiz();
+          writer.hideCharacter();
+        };
+      }
     }
   }, [chosenCharacter, showCard]);
 
