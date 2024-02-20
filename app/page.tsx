@@ -4,11 +4,16 @@ import HanziWriter from "hanzi-writer"
 import React, { useEffect, useState, useRef } from 'react';
 
 const characterArray = ['的', '一', '是', '不', '	了']
+type CharacterMetadata = {
+  definition: string,
+  pronunciation: Array<string>
+}
 
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
   const [chosenCharacter, setChosenCharacter] = useState('')
-  const [characterMetadata, setCharacterMetadata] = useState(null)
+
+  const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
   const targetDivRef = useRef(null);
