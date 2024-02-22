@@ -1,6 +1,8 @@
 'use client'
 import HanziWriter from "hanzi-writer"
 import React, { useEffect, useState, useRef } from 'react';
+import { convertPinyin } from './helpers/ccdbUtils'
+
 
 const characterArray = ['的', '一', '是', '不', '	了']
 type CharacterMetadata = {
@@ -20,11 +22,10 @@ export default function Home() {
   useEffect(() => {
     if (chosenCharacter) {
       fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition,kMandarin`)
-        .then((response) => { console.log("response", response); return response.json() })
+        .then((response) => response.json())
         .then((data) => {
-          setCharacterMetadata({ "definition": data?.[0]?.["kDefinition"], "pronunciation": data?.[0]?.["kMandarin"]?.split(" ") })
+          setCharacterMetadata({ "definition": data?.[0]?.["kDefinition"], "pronunciation": convertPinyin(data?.[0]?.["kMandarin"].split(" ")[0]) })
         })
-        .then(() => console.log('characterMetadata', characterMetadata))
     }
   }, [chosenCharacter])
   useEffect(() => {
@@ -47,6 +48,10 @@ export default function Home() {
       }
     }
   }, [chosenCharacter, showCard]);
+
+  useEffect(() => {
+    console.log('characterMetadata', characterMetadata)
+  }, [characterMetadata])
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-8">
