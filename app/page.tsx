@@ -7,7 +7,7 @@ import { convertPinyin } from './helpers/ccdbUtils'
 const characterArray = ['的', '一', '是', '不', '	了']
 type CharacterMetadata = {
   definition: string,
-  pronunciation: Array<string>
+  pronunciation: string
 }
 
 export default function Home() {
@@ -24,7 +24,12 @@ export default function Home() {
       fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition,kMandarin`)
         .then((response) => response.json())
         .then((data) => {
-          setCharacterMetadata({ "definition": data?.[0]?.["kDefinition"], "pronunciation": convertPinyin(data?.[0]?.["kMandarin"].split(" ")[0]) })
+          // currently only takes the first possible pronunciation of a character provided
+          setCharacterMetadata(
+            {
+              "definition": data?.[0]?.["kDefinition"],
+              "pronunciation": convertPinyin(data?.[0]?.["kMandarin"].split(" ")[0])
+            })
         })
     }
   }, [chosenCharacter])
@@ -64,7 +69,7 @@ export default function Home() {
           <div className="flex flex-col pt-20 pb-4 px-4 max-h-72 min-w-64 min-h-64 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
             <div className="flex justify-center" ref={targetDivRef}></div>
             <div className="flex flex-col justify-center">
-              {isPronunciationVisible && <p>{characterMetadata?.pronunciation?.[0]}</p>}
+              {isPronunciationVisible && <p>{characterMetadata?.pronunciation}</p>}
               {isDefinitionVisible && <p>{characterMetadata?.definition}</p>}
             </div>
           </div>
