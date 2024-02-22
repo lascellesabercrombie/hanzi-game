@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { convertPinyin } from './helpers/ccdbUtils'
 
 
-const characterArray = ['的', '一', '是', '不', '	了']
 type CharacterMetadata = {
   definition: string,
   pronunciation: string
@@ -13,7 +12,7 @@ type CharacterMetadata = {
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
   const [chosenCharacter, setChosenCharacter] = useState('')
-
+  const [characterSet, setCharacterSet] = useState(new Set())
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
@@ -33,6 +32,28 @@ export default function Home() {
         })
     }
   }, [chosenCharacter])
+
+  useEffect(() => {
+    const storedCharacters = JSON.parse(localStorage.getItem('characters'), (key, value) => {
+      if (Array.isArray(value)) {
+        return new Set(value)
+      }
+      return value
+    });
+    if (storedCharacters && storedCharacters.size > 0) {
+      setCharacterSet(new Set(storedCharacters))
+    } else {
+      setCharacterSet(new Set(['的', '一', '是', '不', '	了']))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (characterSet.size > 0) {
+      localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
+    }
+
+  }, [characterSet]);
+
   useEffect(() => {
     if (showCard) {
       const targetDiv: null | HTMLDivElement = targetDivRef.current
@@ -53,10 +74,6 @@ export default function Home() {
       }
     }
   }, [chosenCharacter, showCard]);
-
-  useEffect(() => {
-    console.log('characterMetadata', characterMetadata)
-  }, [characterMetadata])
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-8">
@@ -83,8 +100,22 @@ export default function Home() {
           <h2 className="mx-auto">Your characters</h2>
           <h3>Select a character to practise it</h3>
         </div>
+        <form action={(formData) => {
+          const query = formData.get("newCharacter");
+          if (typeof query === "string") {
+            setCharacterSet((characterSet) => {
+              const newSet = new Set(characterSet);
+              newSet.add(query);
+              return newSet;
+            });
+          }
+        }}>
+          <label htmlFor="characterInput">Add a character to your library</label>
+          <input id="characterInput" type="text" name="newCharacter"></input>
+          <button type="submit">submit</button>
+        </form>
         <div className="grid grid-cols-4 gap-4">
-          {characterArray.map((character) =>
+          {Array.from(characterSet).map((character) =>
             <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
           )}
         </div>
