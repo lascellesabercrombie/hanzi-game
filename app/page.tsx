@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import HanziWriter from "hanzi-writer"
 import React, { useEffect, useState, useRef } from 'react';
 
