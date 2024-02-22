@@ -1,33 +1,34 @@
-// Sourced from http://ccdb.hemiola.com/js/CcdbUtil.js
+// Adapted from http://ccdb.hemiola.com/js/CcdbUtil.js
 
-const setCharAt = function (str, i, ch) {
+const setCharAt = (str: string, i: number, ch: string) => {
     if (i < str.length) {
-        return str.substr(0, i) + ch + str.substr(i + 1);
+        return str.substring(0, i) + ch + str.substring(i + 1);
     }
 
     return str;
 };
-const splitSound = function (value) {
-    var result = "";
+const splitSound = function (value: string): [string, number] {
+    let lowerCaseValue: string = ""
+    let result: string = "";
     if (value) {
-        result = value.toLowerCase();
+        lowerCaseValue = value.toLowerCase();
     }
 
-    var tone = parseInt(value.substring(value.length - 1), 10);
+    let tone: number = parseInt(value.substring(value.length - 1), 10);
     if (isNaN(tone)) {
         tone = 0;
     } else {
-        result = result.substring(0, result.length - 1);
+        result = lowerCaseValue.substring(0, lowerCaseValue.length - 1);
     }
 
-    var iV = result.indexOf("v");
+    const iV = lowerCaseValue.indexOf("v");
     if (iV >= 0) {
         result = setCharAt(result, iV, "\u00FC");
     }
 
     return [result, tone];
 }
-const addDiacritic = function (value, tone) {
+const addDiacritic = function (value: string, tone: number) {
     if (value === "ng") {
         switch (tone) {
             case 2: value = setCharAt(value, 0, "\u0144"); break;
@@ -47,13 +48,13 @@ const addDiacritic = function (value, tone) {
         return value;
     }
 
-    var iA = value.lastIndexOf("a");  // for Yale
-    var iO = value.indexOf("o");
-    var iE = value.indexOf("e");
-    var iI = value.indexOf("i");
-    var iU = value.indexOf("u");
-    var iV = value.indexOf("\u00FC");
-    var iIU = value.indexOf("iu");
+    const iA = value.lastIndexOf("a");  // for Yale
+    const iO = value.indexOf("o");
+    const iE = value.indexOf("e");
+    let iI = value.indexOf("i");
+    let iU = value.indexOf("u");
+    const iV = value.indexOf("\u00FC");
+    const iIU = value.indexOf("iu");
     if (iIU >= 0) {
         iI = -1;
         iU = iIU + 1;
@@ -109,12 +110,12 @@ const addDiacritic = function (value, tone) {
     }
     return value;
 };
-export const convertPinyin = function (value) {
-    var split = splitSound(value);
-    var result = split[0];
-    var tone = split[1];
+export const convertPinyin = function (value: string) {
+    const split = splitSound(value);
+    const result = split[0];
+    const tone = split[1];
     if (tone < 1 || tone > 5) {
         return result;
     }
-    return addDiacritic(result, tone).split(" ");
+    return addDiacritic(result, tone);
 };
