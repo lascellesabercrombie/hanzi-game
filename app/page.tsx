@@ -57,6 +57,12 @@ export default function Home() {
   }, [characterSet]);
 
   useEffect(() => {
+    if (characterSet.size > 0 && !characterSet.has(chosenCharacter)) {
+      setChosenCharacter(characterSet.values().next().value)
+    }
+  }, [characterSet, chosenCharacter])
+
+  useEffect(() => {
     if (showCard) {
       const targetDiv: null | HTMLDivElement = targetDivRef.current
       if (targetDiv) {
