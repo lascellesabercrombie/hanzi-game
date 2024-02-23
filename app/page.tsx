@@ -50,6 +50,8 @@ export default function Home() {
   useEffect(() => {
     if (characterSet.size > 0) {
       localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
+    } else {
+      setShowCard(false)
     }
 
   }, [characterSet]);
