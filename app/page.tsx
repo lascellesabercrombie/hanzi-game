@@ -111,7 +111,7 @@ export default function Home() {
           }
         }}>
           <label htmlFor="characterInput">Add a character to your library</label>
-          <input id="characterInput" type="text" name="newCharacter"></input>
+          <input id="characterInput" type="text" name="newCharacter" pattern="^[\u4e00-\u9fa5]{0,1}$"></input>
           <button type="submit">submit</button>
         </form>
         <div className="grid grid-cols-4 gap-4">
