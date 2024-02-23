@@ -89,13 +89,29 @@ export default function Home() {
         <h1 className="mx-auto">Character-full</h1>
         <h2>Practise writing Chinese characters</h2>
       </div>
-      {showCard &&
-        <section className="flex flex-col">
-          <div className="flex flex-col pt-20 pb-4 px-4 max-h-72 min-w-64 min-h-64 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
-            <div className="flex justify-center" ref={targetDivRef}></div>
-            <div className="flex flex-col justify-center">
-              {isPronunciationVisible && <p>{characterMetadata?.pronunciation}</p>}
-              {isDefinitionVisible && <p>{characterMetadata?.definition}</p>}
+      <section>
+        {showCard &&
+          <div className="flex flex-col">
+            <div className="flex flex-col pt-20 pb-4 px-4 max-h-72 min-w-64 min-h-64 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
+              <div className="flex justify-center" ref={targetDivRef}></div>
+              <div className="flex flex-col justify-center">
+                {isPronunciationVisible && <p>{characterMetadata?.pronunciation}</p>}
+                {isDefinitionVisible && <p>{characterMetadata?.definition}</p>}
+              </div>
+            </div>
+            <div className="flex flex-col items-start py-4 gap-4">
+              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
+              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} definition`}</button>
+              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
+                if (characterSet.size == 1) {
+                  localStorage.setItem('characters', JSON.stringify({}));
+                }
+                setCharacterSet((characterSet) => {
+                  const newSet = new Set(characterSet);
+                  newSet.delete(chosenCharacter);
+                  return newSet;
+                });
+              }}>Remove character from your library</button>
             </div>
           </div>
           <div className="flex flex-col items-start py-4 gap-4">
