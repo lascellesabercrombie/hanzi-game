@@ -114,11 +114,11 @@ export default function Home() {
               }}>Remove character from your library</button>
             </div>
           </div>
-          <div className="flex flex-col items-start py-4 gap-4">
-            <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
-            <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} definition`}</button>
-          </div>
-        </section>}
+        }
+        {!showCard && characterSet.size === 0 &&
+          <p className="max-w-sm">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
+        }
+      </section>
       <section className="flex flex-col">
         <div className="flex flex-col pb-4">
           <h2 className="mx-auto">Your characters</h2>
