@@ -12,7 +12,7 @@ type CharacterMetadata = {
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
   const [chosenCharacter, setChosenCharacter] = useState('')
-  const [characterSet, setCharacterSet] = useState(new Set())
+  const [characterSet, setCharacterSet] = useState(new Set<string>())
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
@@ -34,7 +34,7 @@ export default function Home() {
   }, [chosenCharacter])
 
   useEffect(() => {
-    const storedCharacters = JSON.parse(localStorage.getItem('characters'), (key, value) => {
+    const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
       if (Array.isArray(value)) {
         return new Set(value)
       }
