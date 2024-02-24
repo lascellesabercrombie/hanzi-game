@@ -17,8 +17,8 @@ export default function Home() {
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
+  const [isReset, setIsReset] = useState(false)
   const targetDivRef = useRef<null | HTMLDivElement>(null);
-
   useEffect(() => {
     if (chosenCharacter) {
       fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition,kMandarin`)
@@ -80,6 +80,11 @@ export default function Home() {
             setTotalMistakes(summaryData.totalMistakes);
           }
         })
+        if (isReset) {
+          writer.setCharacter(chosenCharacter)
+          setIsReset(false)
+        }
+
         return () => {
           writer.cancelQuiz();
           writer.hideCharacter();
@@ -87,7 +92,7 @@ export default function Home() {
         };
       }
     }
-  }, [chosenCharacter, showCard]);
+  }, [chosenCharacter, isReset, showCard]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-8">
@@ -108,6 +113,10 @@ export default function Home() {
             <div className="flex flex-col items-start py-4 gap-4">
               <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
               <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} definition`}</button>
+              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
+                console.log('in onclick', targetDivRef.current)
+                setIsReset(true)
+              }}>Reset</button>
               <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
                 if (characterSet.size == 1) {
                   localStorage.setItem('characters', JSON.stringify({}));
