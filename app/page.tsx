@@ -16,6 +16,7 @@ export default function Home() {
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
+  const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
   const targetDivRef = useRef<null | HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,10 +75,15 @@ export default function Home() {
           height: 100,
           padding: 5,
         });
-        writer.quiz()
+        writer.quiz({
+          onComplete: function (summaryData) {
+            setTotalMistakes(summaryData.totalMistakes);
+          }
+        })
         return () => {
           writer.cancelQuiz();
           writer.hideCharacter();
+          setTotalMistakes(null)
         };
       }
     }
@@ -112,6 +118,7 @@ export default function Home() {
                   return newSet;
                 });
               }}>Remove character from your library</button>
+              {Number.isInteger(totalMistakes) && <p>You made {totalMistakes} {totalMistakes === 1 ? "mistake" : "mistakes"} on this character</p>}
             </div>
           </div>
         }
