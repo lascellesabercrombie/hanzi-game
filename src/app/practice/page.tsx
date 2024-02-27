@@ -1,7 +1,7 @@
 'use client'
 import HanziWriter from "hanzi-writer"
 import React, { useEffect, useState, useRef } from 'react';
-import { convertPinyin } from './helpers/ccdbUtils'
+import { convertPinyin } from '../../helpers/ccdbUtils'
 
 
 type CharacterMetadata = {
