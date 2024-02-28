@@ -1,24 +1,12 @@
 'use client'
 import HanziWriter from "hanzi-writer"
-import React, { useEffect, useState, useRef } from 'react';
+import React, { use, useEffect, useState, useRef } from 'react';
 import { convertPinyin } from '../../helpers/ccdbUtils'
 
 
 type CharacterMetadata = {
-  definition: string,
-  pronunciation: string
-}
-
-type SearchResult = {
-  character: string,
-  definition: string,
-  pronunciation: string
-}
-
-type FetchDefinitionResultItem = {
-  string: string,
-  kDefinition: string,
-  kMandarin: string
+  definition?: string,
+  pronunciation?: string
 }
 
 export default function Home() {
@@ -30,22 +18,8 @@ export default function Home() {
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
   const [isShowCharacterOutline, setIsShowCharacterOutline] = useState(true)
-  const [searchResults, setSearchResults] = useState<Array<SearchResult>>([])
   const [isReset, setIsReset] = useState(false)
   const targetDivRef = useRef<null | HTMLDivElement>(null);
-
-  const validate = (input: string) => {
-    const chineseCharacterRegex = /^[\u4e00-\u9fa5]{0,1}$/
-    const englishWordRegex = /^[a-zA-Z]+$/
-
-    if (chineseCharacterRegex.test(input)) {
-      return "chinese"
-    }
-    if (englishWordRegex.test(input)) {
-      return "english"
-    }
-
-  }
 
   useEffect(() => {
     if (chosenCharacter) {
@@ -56,7 +30,7 @@ export default function Home() {
           setCharacterMetadata(
             {
               "definition": data?.[0]?.["kDefinition"],
-              "pronunciation": convertPinyin(data?.[0]?.["kMandarin"].split(" ")[0])
+              "pronunciation": convertPinyin(data?.[0]?.["kMandarin"]?.split(" ")?.[0])
             })
         })
     }
@@ -171,48 +145,6 @@ export default function Home() {
           <h2 className="mx-auto">Your characters</h2>
           <h3>Select a character to practise it</h3>
         </div>
-        <form action={(formData) => {
-          const query = formData.get("newCharacter");
-          if (typeof query === "string" && validate(query) === "chinese") {
-            setCharacterSet((characterSet) => {
-              const newSet = new Set(characterSet);
-              newSet.add(query);
-              return newSet;
-            });
-          }
-          if (typeof query === "string" && validate(query) === "english") {
-            fetch(`http://ccdb.hemiola.com/characters/definition/${query}?fields=string,kDefinition,kMandarin`)
-              .then((response) => { setSearchResults([]); return response.json(); })
-              .then((data) => {
-                const array: Array<SearchResult> = []
-                data.map((datum: FetchDefinitionResultItem) => {
-                  array.push({ character: datum["string"], definition: datum["kDefinition"], pronunciation: convertPinyin(datum?.["kMandarin"].split(" ")[0]) })
-                })
-                setSearchResults(array)
-              })
-          }
-        }}>
-          <label htmlFor="characterInput">Add a character to your library</label>
-          <input id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
-          <button type="submit">submit</button>
-        </form>
-        {
-          searchResults.length === 0 ? (<div>No results found</div>) : searchResults.map((searchItem, index) => {
-            return (
-              <button key={`search-result-${index}`} onClick={() => {
-                setCharacterSet((characterSet) => {
-                  const newSet = new Set(characterSet);
-                  newSet.add(searchItem["character"]);
-                  return newSet;
-                })
-              }}>
-                <h2>{searchItem["character"]}</h2>
-                <h3>{searchItem["definition"]}</h3>
-                <h3>{searchItem["pronunciation"]}</h3>
-              </button>
-            )
-          })
-        }
         <div className="grid grid-cols-4 gap-4">
           {Array.from(characterSet).map((character) =>
             <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
