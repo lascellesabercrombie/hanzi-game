@@ -110,7 +110,10 @@ const addDiacritic = function (value: string, tone: number) {
     }
     return value;
 };
-export const convertPinyin = function (value: string) {
+export const convertPinyin = function (value: unknown) {
+    if (typeof value !== "string") {
+        return undefined
+    }
     const split = splitSound(value);
     const result = split[0];
     const tone = split[1];
