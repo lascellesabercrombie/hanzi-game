@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar"
+import ParentWrapper from "../components/ParentWrapper";
 import './globals.css'
 import { Inter } from "next/font/google";
 export const metadata = {
@@ -15,9 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}
-        <Navbar />
-      </body>
+      <ParentWrapper>
+        <body className={inter.className}>{children}
+          <Navbar />
+        </body>
+      </ParentWrapper>
     </html>
   )
 }

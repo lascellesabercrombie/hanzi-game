@@ -1,9 +1,8 @@
 'use client'
 import HanziWriter from "hanzi-writer"
-import React, { use, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { convertPinyin } from '../../helpers/ccdbUtils'
-
-
+import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 type CharacterMetadata = {
   definition?: string,
   pronunciation?: string
@@ -11,7 +10,7 @@ type CharacterMetadata = {
 
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
-  const [chosenCharacter, setChosenCharacter] = useState('')
+  const { chosenCharacter, onSelectChosenCharacter } = useContext(CharacterContext) as CharacterContextType
   const [characterSet, setCharacterSet] = useState(new Set<string>())
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
@@ -32,6 +31,7 @@ export default function Home() {
               "definition": data?.[0]?.["kDefinition"],
               "pronunciation": convertPinyin(data?.[0]?.["kMandarin"]?.split(" ")?.[0])
             })
+          setShowCard(true)
         })
     }
   }, [chosenCharacter])
@@ -61,9 +61,9 @@ export default function Home() {
 
   useEffect(() => {
     if (characterSet.size > 0 && !characterSet.has(chosenCharacter)) {
-      setChosenCharacter(characterSet.values().next().value)
+      onSelectChosenCharacter(characterSet.values().next().value)
     }
-  }, [characterSet, chosenCharacter])
+  }, [characterSet, chosenCharacter, onSelectChosenCharacter])
 
   useEffect(() => {
     if (showCard) {
@@ -147,7 +147,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-4 gap-4">
           {Array.from(characterSet).map((character) =>
-            <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); setChosenCharacter(character) }}>{character}</button>
+            <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}>{character}</button>
           )}
         </div>
       </section>

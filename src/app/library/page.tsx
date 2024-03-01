@@ -1,7 +1,10 @@
 'use client'
 import { validateInput } from "@/src/helpers/validateInput";
 import { convertPinyin } from "@/src/helpers/ccdbUtils";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
+import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
+import { useRouter } from 'next/navigation'
+
 
 type SearchResult = {
     character: string,
@@ -18,7 +21,8 @@ type FetchDefinitionResultItem = {
 export default function Library() {
     const [characterSet, setCharacterSet] = useState(new Set<string>())
     const [searchResults, setSearchResults] = useState<null | Array<SearchResult>>(null)
-
+    const { onSelectChosenCharacter } = useContext(CharacterContext) as CharacterContextType
+    const router = useRouter()
 
     useEffect(() => {
         const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
@@ -95,9 +99,12 @@ export default function Library() {
             </Suspense>
             <div className="grid grid-cols-4 gap-4">
                 {Array.from(characterSet).map((character) =>
-                    <div className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`}
-                    // onClick={() => {setShowCard(true); setChosenCharacter(character) }}
-                    >{character}</div>
+                    <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`}
+                        onClick={() => {
+                            onSelectChosenCharacter(character);
+                            router.push('/practice')
+                        }}
+                    >{character}</button>
                 )}
             </div>
         </section>)
