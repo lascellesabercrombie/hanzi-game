@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <ParentWrapper>
         <body className={inter.className}>
-          <div className="pb-16">{children}</div>
+          <div className="pb-16 pt-8 px-4">{children}</div>
           <Navbar />
         </body>
       </ParentWrapper>
