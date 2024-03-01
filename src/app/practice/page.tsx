@@ -2,6 +2,7 @@
 import HanziWriter from "hanzi-writer"
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { convertPinyin } from '../../helpers/ccdbUtils'
+import { getInitialState } from "@/src/helpers/getInitialState";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 type CharacterMetadata = {
   definition?: string,
@@ -13,12 +14,13 @@ export default function Home() {
   const { chosenCharacter, onSelectChosenCharacter } = useContext(CharacterContext) as CharacterContextType
   const [characterSet, setCharacterSet] = useState(new Set<string>())
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
-  const [isPronunciationVisible, setIsPronunciationVisible] = useState(false)
-  const [isDefinitionVisible, setIsDefinitionVisible] = useState(false)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
-  const [isShowCharacterOutline, setIsShowCharacterOutline] = useState(true)
   const [isReset, setIsReset] = useState(false)
   const targetDivRef = useRef<null | HTMLDivElement>(null);
+
+  const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
+  const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
+  const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
 
   useEffect(() => {
     if (chosenCharacter) {
@@ -76,7 +78,7 @@ export default function Home() {
           width: 100,
           height: 100,
           padding: 5,
-          showOutline: isShowCharacterOutline
+          showOutline: isCharacterOutlineVisible
         });
         writer.quiz({
           onComplete: function (summaryData) {
@@ -95,7 +97,7 @@ export default function Home() {
         };
       }
     }
-  }, [chosenCharacter, isReset, isShowCharacterOutline, showCard]);
+  }, [chosenCharacter, isReset, isCharacterOutlineVisible, showCard]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-8">
@@ -114,14 +116,9 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-col items-start py-4 gap-4">
-              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsPronunciationVisible(!isPronunciationVisible) }}>{`${!isPronunciationVisible ? "Show" : "Hide"} pronunciation`}</button>
-              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => { setIsDefinitionVisible(!isDefinitionVisible) }}>{`${!isDefinitionVisible ? "Show" : "Hide"} definition`}</button>
               <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
                 setIsReset(true)
               }}>Reset</button>
-              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
-                setIsShowCharacterOutline(!isShowCharacterOutline)
-              }}>{`${isShowCharacterOutline ? "Hide" : "Show"} character outline`}</button>
               <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
                 if (characterSet.size == 1) {
                   localStorage.setItem('characters', JSON.stringify({}));
