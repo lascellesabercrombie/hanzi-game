@@ -1,5 +1,5 @@
 import * as React from "react";
-const SvgPractice = (props) => (
+const SvgPractice = (props: { className: string, key: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"

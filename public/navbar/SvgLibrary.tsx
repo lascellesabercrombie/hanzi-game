@@ -1,5 +1,5 @@
 import * as React from "react";
-const SvgLibrary = (props) => (
+const SvgLibrary = (props: { className: string, key: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={800}
