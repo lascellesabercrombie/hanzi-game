@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import { convertPinyin } from '../../helpers/ccdbUtils'
 import { getInitialState } from "@/src/helpers/getInitialState";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
+import SvgReset from "@/public/character/SvgReset";
+import SvgDelete from "@/public/character/SvgDelete";
 type CharacterMetadata = {
   definition?: string,
   pronunciation?: string
@@ -75,9 +77,9 @@ export default function Home() {
       }
       if (targetDiv !== null) {
         const writer = HanziWriter.create(targetDiv, chosenCharacter, {
-          width: 100,
-          height: 100,
-          padding: 5,
+          width: 200,
+          height: 200,
+          padding: 0,
           showOutline: isCharacterOutlineVisible
         });
         writer.quiz({
@@ -101,34 +103,39 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="flex flex-col">
-        <h1 className="mx-auto">Character-full</h1>
-        <h2>Practise writing Chinese characters</h2>
-      </div>
-      <section>
+      <section className="bg-red-200 w-screen">
+        <h1 className="text-lg font-medium px-4 py-4 border-b-2 border-slate-200">Practise writing Chinese characters</h1>
         {showCard &&
-          <div className="flex flex-col">
-            <div className="flex flex-col pt-20 pb-4 px-4 max-h-72 min-w-64 min-h-64 max-w-sm mx-auto bg-red-200 rounded-xl shadow-lg space-y-5 ">
+          <div className="flex flex-col py-4 px-2">
+            <div className="bg-neutral-100 flex max-h-72 min-w-64 min-h-64 max-w-sm mx-auto rounded-xl shadow-lg items-center justify-center">
               <div className="flex justify-center" ref={targetDivRef}></div>
               <div className="flex flex-col justify-center">
-                {isPronunciationVisible && <p>{characterMetadata?.pronunciation}</p>}
-                {isDefinitionVisible && <p>{characterMetadata?.definition}</p>}
               </div>
             </div>
-            <div className="flex flex-col items-start py-4 gap-4">
-              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
-                setIsReset(true)
-              }}>Reset</button>
-              <button className="py-2 px-2 bg-blue-200 rounded-lg" onClick={() => {
-                if (characterSet.size == 1) {
-                  localStorage.setItem('characters', JSON.stringify({}));
-                }
-                setCharacterSet((characterSet) => {
-                  const newSet = new Set(characterSet);
-                  newSet.delete(chosenCharacter);
-                  return newSet;
-                });
-              }}>Remove character from your library</button>
+            <div className="flex flex-col items-center py-4 gap-4">
+              <div className="flex gap-2">
+
+                <button className="bg-neutral-200 flex justify-center items-center w-8 h-8 rounded-full shadow-lg" aria-label="Reset" onClick={() => {
+                  setIsReset(true)
+                }}>
+                  <SvgReset className="fill-cyan-950 max-w-5 max-h-5" />
+                </button>
+                <button className="bg-neutral-200 flex justify-center items-center w-8 h-8 rounded-full shadow-lg" aria-label="Remove character from your library" onClick={() => {
+                  if (characterSet.size == 1) {
+                    localStorage.setItem('characters', JSON.stringify({}));
+                  }
+                  setCharacterSet((characterSet) => {
+                    const newSet = new Set(characterSet);
+                    newSet.delete(chosenCharacter);
+                    return newSet;
+                  });
+                }}>
+                  <SvgDelete className="fill-cyan-950 max-w-6 max-h-6" />
+                </button>
+              </div>
+              {isPronunciationVisible && <span>{characterMetadata?.pronunciation}</span>}
+              {isDefinitionVisible && <span>{characterMetadata?.definition}</span>}
+
               {Number.isInteger(totalMistakes) && <p>You made {totalMistakes} {totalMistakes === 1 ? "mistake" : "mistakes"} on this character</p>}
             </div>
           </div>
