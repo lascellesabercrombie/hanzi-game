@@ -11,19 +11,19 @@ export default function Settings() {
     const options = [
         {
             name: 'Show definition',
-            localstorageName: 'isDefinitionVisible',
+            localStorageKey: 'isDefinitionVisible',
             state: isDefinitionVisible,
             setState: setIsDefinitionVisible
         },
         {
             name: 'Show pronunciation (Mandarin)',
-            localstorageName: 'isPronunciationVisible',
+            localStorageKey: 'isPronunciationVisible',
             state: isPronunciationVisible,
             setState: setIsPronunciationVisible
         },
         {
             name: 'Show character outline',
-            localstorageName: 'isCharacterOutlineVisible',
+            localStorageKey: 'isCharacterOutlineVisible',
             state: isCharacterOutlineVisible,
             setState: setIsCharacterOutlineVisible
         },
@@ -32,7 +32,7 @@ export default function Settings() {
     return (
         <main><h1>Settings</h1>
             <ul className="toppings-list">
-                {options.map(({ name, localstorageName, state, setState }, index) => {
+                {options.map(({ name, localStorageKey, state, setState }, index) => {
                     return (
                         <li key={index}>
                             <div className="left-section">
@@ -42,7 +42,7 @@ export default function Settings() {
                                     name={name}
                                     value={name}
                                     checked={state}
-                                    onChange={() => onToggleSetting(localstorageName, state, setState)}
+                                    onChange={() => onToggleSetting(localStorageKey, state, setState)}
                                 />
                                 <label htmlFor={`custom-checkbox-${name}`}>{name}</label>
                             </div>
