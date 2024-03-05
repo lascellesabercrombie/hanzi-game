@@ -6,6 +6,7 @@ import { getInitialState } from "@/src/helpers/getInitialState";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
 import SvgDelete from "@/public/character/SvgDelete";
+import { DeleteModal } from "@/src/components/DeleteModal";
 type CharacterMetadata = {
   definition?: string,
   pronunciation?: string
@@ -18,11 +19,29 @@ export default function Home() {
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
   const [isReset, setIsReset] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const targetDivRef = useRef<null | HTMLDivElement>(null);
 
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
   const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const onDeleteCharacter = () => {
+    setCharacterSet((characterSet) => {
+      const newSet = new Set(characterSet);
+      newSet.delete(chosenCharacter);
+      return newSet;
+    });
+  }
 
   useEffect(() => {
     if (chosenCharacter) {
@@ -104,7 +123,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <section className="bg-red-200 w-screen">
-        <h1 className="text-lg font-medium px-4 py-4 border-b-2 border-slate-200">Practise writing Chinese characters</h1>
+        <h1 className="text-lg text-cyan-950 font-medium px-4 py-4 border-b-2 border-slate-200">Practise writing Chinese characters</h1>
         {showCard &&
           <div className="flex flex-col py-4 px-2">
             <div className="bg-neutral-100 flex max-h-72 min-w-64 min-h-64 max-w-sm mx-auto rounded-xl shadow-lg items-center justify-center">
@@ -120,21 +139,15 @@ export default function Home() {
                 }}>
                   <SvgReset className="fill-cyan-950 max-w-5 max-h-5" />
                 </button>
-                <button className="bg-neutral-200 flex justify-center items-center w-8 h-8 rounded-full shadow-lg" aria-label="Remove character from your library" onClick={() => {
-                  if (characterSet.size == 1) {
-                    localStorage.setItem('characters', JSON.stringify({}));
-                  }
-                  setCharacterSet((characterSet) => {
-                    const newSet = new Set(characterSet);
-                    newSet.delete(chosenCharacter);
-                    return newSet;
-                  });
-                }}>
+                <button className="bg-neutral-200 flex justify-center items-center w-8 h-8 rounded-full shadow-lg" aria-label="Remove character from your library"
+                  onClick={() => {
+                    setIsModalOpen(true)
+                  }}>
                   <SvgDelete className="fill-cyan-950 max-w-6 max-h-6" />
                 </button>
               </div>
-              {isPronunciationVisible && <span>{characterMetadata?.pronunciation}</span>}
-              {isDefinitionVisible && <span>{characterMetadata?.definition}</span>}
+              {isPronunciationVisible && <span className="text-lg text-cyan-950">{characterMetadata?.pronunciation}</span>}
+              {isDefinitionVisible && <span className="max-w-80 text-base text-cyan-950">{characterMetadata?.definition}</span>}
 
               {Number.isInteger(totalMistakes) && <p>You made {totalMistakes} {totalMistakes === 1 ? "mistake" : "mistakes"} on this character</p>}
             </div>
@@ -155,6 +168,7 @@ export default function Home() {
           )}
         </div>
       </section>
+      <DeleteModal characterSet={characterSet} isModalOpen={isModalOpen} closeModal={closeModal} onDeleteCharacter={onDeleteCharacter} />
     </main >
   );
 }
