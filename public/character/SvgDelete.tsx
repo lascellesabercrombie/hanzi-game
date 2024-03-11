@@ -1,4 +1,3 @@
-import * as React from "react";
 const SvgDelete = (props: { className: string, key?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
