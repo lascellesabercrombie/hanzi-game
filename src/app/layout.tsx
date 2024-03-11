@@ -17,8 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ParentWrapper>
-        <body className={inter.className}>
-          <div className="pb-16">{children}</div>
+        <body className={`${inter.className} pb-16 bg-red-200`}>
+          {children}
           <Navbar />
         </body>
       </ParentWrapper>
