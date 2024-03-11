@@ -4,6 +4,7 @@ import { convertPinyin } from "@/src/helpers/ccdbUtils";
 import { Suspense, useContext, useEffect, useState } from "react";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import { useRouter } from 'next/navigation'
+import { Title } from "@/src/components/Title";
 
 
 type SearchResult = {
@@ -47,7 +48,7 @@ export default function Library() {
     return (
         <section className="flex flex-col">
             <div className="flex flex-col pb-4">
-                <h2 className="mx-auto">Your characters</h2>
+                <Title>Library</Title>
                 <h3>Select a character to practise it</h3>
             </div>
             <form action={(formData) => {

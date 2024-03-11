@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { getInitialState } from "@/src/helpers/getInitialState"
 import { onToggleSetting } from "@/src/helpers/onToggleSetting"
+import { Title } from "@/src/components/Title"
 
 export default function Settings() {
     const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
@@ -30,7 +31,8 @@ export default function Settings() {
     ]
 
     return (
-        <main><h1>Settings</h1>
+        <main>
+            <Title>Settings</Title>
             <ul className="toppings-list">
                 {options.map(({ name, localStorageKey, state, setState }, index) => {
                     return (
