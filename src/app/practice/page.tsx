@@ -160,7 +160,7 @@ export default function Home() {
       {/* </section> */}
       <Carousel>
         {Array.from(characterSet).map((character, index) =>
-          <button className="py-4 px-4 bg-neutral-100 rounded-xl shadow-md text-cyan-950 text-5xl" key={`button-${index}`} onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}>{character}</button>
+          <button className="py-4 px-4 w-1/4 bg-neutral-100 rounded-xl shadow-md text-cyan-950 text-5xl" key={`button-${index}`} onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}>{character}</button>
         )}
       </Carousel>
       {/* <section className="flex flex-col">
