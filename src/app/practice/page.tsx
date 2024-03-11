@@ -9,6 +9,7 @@ import SvgDelete from "@/public/character/SvgDelete";
 import { DeleteModal } from "@/src/components/DeleteModal";
 import Carousel from "@/src/components/Carousel";
 import { IconButton } from "@/src/components/IconButton";
+import { Title } from "@/src/components/Title";
 
 type CharacterMetadata = {
   definition?: string,
@@ -126,7 +127,7 @@ export default function Home() {
   return (
     <main className="bg-red-200 flex min-h-screen flex-col items-center">
       {/* <section className=" w-screen"> */}
-      <h1 className="text-lg text-cyan-950 font-medium px-4 py-4 border-b-2 border-slate-200">Practise writing Chinese characters</h1>
+      <Title>Practise writing Chinese characters</Title>
       {showCard &&
         <div className="flex flex-col pt-4 pb-2 px-2">
           <div className="bg-neutral-100 flex max-h-72 min-w-64 min-h-64 max-w-sm mx-auto rounded-xl shadow-lg items-center justify-center">
