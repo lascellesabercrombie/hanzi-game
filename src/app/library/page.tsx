@@ -78,24 +78,28 @@ export default function Library() {
                 <button type="submit">submit</button>
             </form>
             <Suspense fallback={<p>Loading</p>}>
-                {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
-                {searchResults && searchResults.map((searchItem, index) => {
-                    return (
-                        <button key={`search-result-${index}`} onClick={() => {
-                            setCharacterSet((characterSet) => {
-                                const newSet = new Set(characterSet);
-                                newSet.add(searchItem["character"]);
-                                return newSet;
-                            })
-                            setSearchResults([])
-                        }}>
-                            <h2>{searchItem["character"]}</h2>
-                            <h3>{searchItem["definition"]}</h3>
-                            <h3>{searchItem["pronunciation"]}</h3>
-                        </button>
-                    )
-                })
-                }
+                <div className="flex flex-col gap-2 py-2 px-4">
+                    {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
+                    {searchResults && searchResults.map((searchItem, index) => {
+                        return (
+                            <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl shadow-lg px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
+                                setCharacterSet((characterSet) => {
+                                    const newSet = new Set(characterSet);
+                                    newSet.add(searchItem["character"]);
+                                    return newSet;
+                                })
+                                setSearchResults([])
+                            }}>
+                                <h2 className="text-3xl">{searchItem["character"]}</h2>
+                                <div className="flex flex-col text-left">
+                                    <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
+                                    <h4 className="text-base">{searchItem["definition"]}</h4>
+                                </div>
+                            </button>
+                        )
+                    })
+                    }
+                </div>
             </Suspense>
             <div className="grid grid-cols-4 gap-4">
                 {Array.from(characterSet).map((character) =>
