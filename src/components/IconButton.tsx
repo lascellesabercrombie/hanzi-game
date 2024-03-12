@@ -10,7 +10,7 @@ export const IconButton = ({ ariaLabel, disabled = false, size = 8, onClick, chi
     const widthAndHeight = `w-${size} h-${size}`
     return (
         <button aria-disabled={disabled} disabled={disabled} className={
-            `bg-neutral-200 flex justify-center items-center ${widthAndHeight} rounded-full shadow-lg disabled:border disabled:bg-red-200 disabled:border-cyan-950 disabled:shadow-none`
+            `bg-neutral-200 flex justify-center items-center ${widthAndHeight} rounded-full shadow-lg disabled:bg-slate-600  disabled:shadow-none`
         }
             aria-label={ariaLabel} onClick={onClick}>
             {children}

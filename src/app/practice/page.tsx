@@ -148,8 +148,8 @@ export default function Home() {
                 <SvgDelete className="*:fill-cyan-950 max-w-6 max-h-6" />
               </IconButton>
             </div>
-            {isPronunciationVisible && <span className="text-lg text-cyan-950">{characterMetadata?.pronunciation}</span>}
-            {isDefinitionVisible && <span className="max-w-80 text-base text-cyan-950">{characterMetadata?.definition}</span>}
+            {isPronunciationVisible && <span className="text-lg ">{characterMetadata?.pronunciation}</span>}
+            {isDefinitionVisible && <span className="max-w-80 text-base ">{characterMetadata?.definition}</span>}
 
             {Number.isInteger(totalMistakes) && <p>You made {totalMistakes} {totalMistakes === 1 ? "mistake" : "mistakes"} on this character</p>}
           </div>
