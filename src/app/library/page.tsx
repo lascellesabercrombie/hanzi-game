@@ -52,11 +52,9 @@ export default function Library() {
     }, [characterSet]);
 
     return (
-        <section className="flex flex-col">
-            <div className="flex flex-col pb-4">
-                <Title>Library</Title>
-            </div>
-            <div className="flex flex-col justify-center px-6 py-2 gap-3">
+        <main className="flex flex-col">
+            <Title>Library</Title>
+            <div className="flex flex-col justify-center px-6 pb-2 pt-4 gap-3">
                 <button className="bg-cyan-700 flex rounded-lg pl-2 pr-4 py-2 w-fit shadow-lg text-slate-200 font-medium justify-center items-center" onClick={openModal}>
                     <SvgAdd className="w-8 h-8 *:stroke-slate-200" />
                     <span>Add character to library</span>
@@ -75,6 +73,6 @@ export default function Library() {
                 )}
             </div>
             <SearchModal isModalOpen={isModalOpen} closeModal={closeModal} onAddToCharacterSet={onAddToCharacterSet} />
-        </section>
+        </main>
     )
 }

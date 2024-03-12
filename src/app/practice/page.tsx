@@ -125,7 +125,7 @@ export default function Home() {
   }, [chosenCharacter, isReset, isCharacterOutlineVisible, showCard]);
 
   return (
-    <main className="bg-red-200 flex min-h-screen flex-col items-center">
+    <main className="flex flex-col">
       {/* <section className=" w-screen"> */}
       <Title>Practise writing Chinese characters</Title>
       {showCard &&
