@@ -49,7 +49,6 @@ export default function Library() {
         <section className="flex flex-col">
             <div className="flex flex-col pb-4">
                 <Title>Library</Title>
-                <h3>Select a character to practise it</h3>
             </div>
             <form action={(formData) => {
                 const query = formData.get("newCharacter");
@@ -102,9 +101,10 @@ export default function Library() {
                     }
                 </div>
             </Suspense>
-            <div className="grid grid-cols-4 gap-4">
+            <h3>Press a character to practise writing it</h3>
+            <div className="grid grid-cols-3 gap-6 px-6 py-2 ">
                 {Array.from(characterSet).map((character) =>
-                    <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`}
+                    <button className="py-6 px-2 bg-blue-100 rounded-xl text-3xl text-cyan-950 shadow-lg" key={`button-${character}`}
                         onClick={() => {
                             onSelectChosenCharacter(character);
                             router.push('/practice')
