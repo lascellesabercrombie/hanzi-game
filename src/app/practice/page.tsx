@@ -7,13 +7,22 @@ import { CharacterContext, CharacterContextType } from "../../components/ParentW
 import SvgReset from "@/public/character/SvgReset";
 import SvgDelete from "@/public/character/SvgDelete";
 import { DeleteModal } from "@/src/components/DeleteModal";
-import Carousel from "@/src/components/Carousel";
 import { IconButton } from "@/src/components/IconButton";
 import { Title } from "@/src/components/Title";
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 type CharacterMetadata = {
   definition?: string,
   pronunciation?: string
+}
+
+interface CustomSlideProps {
+  children: string,
+  className: string,
+  key: string,
+  onClick: () => void,
 }
 
 export default function Home() {
@@ -30,6 +39,25 @@ export default function Home() {
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
   const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1
+  }
+
+  function CustomSlide(props: CustomSlideProps) {
+    const { children, ...otherProps } = props;
+
+    return (
+      <button {...otherProps}>
+        {children}
+      </button>
+    );
+  }
+
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -158,12 +186,19 @@ export default function Home() {
       {!showCard && characterSet.size === 0 &&
         <p className="max-w-sm">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
       }
-      {/* </section> */}
-      <Carousel>
-        {Array.from(characterSet).map((character, index) =>
-          <button className="py-4 px-4 w-1/4 bg-neutral-100 rounded-xl shadow-md text-cyan-950 text-5xl" key={`button-${index}`} onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}>{character}</button>
-        )}
-      </Carousel>
+      <div className="w-3/4 mx-auto">
+        <Slider {...settings}>
+          {Array.from(characterSet).map((character, index) =>
+            <CustomSlide
+              className="py-4 px-4 bg-neutral-100 rounded-xl shadow-md text-cyan-950 text-5xl"
+              key={`button-${index}`}
+              onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}
+            >
+              {character}
+            </CustomSlide>
+          )}
+        </Slider>
+      </div>
       {/* <section className="flex flex-col">
         <div className="flex flex-col pb-4">
           <h2 className="mx-auto">Your characters</h2>
