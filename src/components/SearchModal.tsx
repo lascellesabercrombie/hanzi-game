@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { CharacterContext, CharacterContextType } from './ParentWrapper'
 import { validateInput } from '../helpers/validateInput';
 import { convertPinyin } from '../helpers/ccdbUtils';
+import SvgSearch from '@/public/character/SvgSearch';
 
 interface SearchModalProps {
     isModalOpen: boolean,
@@ -10,13 +11,13 @@ interface SearchModalProps {
     onAddToCharacterSet: (itemToAdd: string) => void
 }
 
-type SearchResult = {
+interface SearchResult {
     character: string,
     definition?: string,
     pronunciation?: string,
 }
 
-type FetchDefinitionResultItem = {
+interface FetchDefinitionResultItem {
     string: string,
     kDefinition?: string,
     kMandarin?: string
@@ -51,7 +52,7 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-neutral-200 text-cyan-950 p-10 text-left align-middle shadow-xl transition-all">
+                        <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-neutral-100 text-cyan-950 p-10 text-left align-middle shadow-xl transition-all">
                             <Dialog.Title
                                 as="h3"
                                 className="text-lg font-medium leading-6"
@@ -80,13 +81,16 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                     }
                                 }}>
                                     <label htmlFor="characterInput">Search by character or English definition</label>
-                                    <div className="flex">
-                                        <input id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
-                                        <button type="submit">submit</button>
+                                    <div className="flex py-4">
+                                        <input className="border border-cyan-950 px-2" id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
+                                        <button className="bg-cyan-950 p-2" type="submit">
+                                            <SvgSearch className="w-4 h-4 *:stroke-neutral-100" />
+                                            <span className="sr-only">Search</span>
+                                        </button>
                                     </div>
                                 </form>
                                 <Suspense fallback={<p>Loading</p>}>
-                                    <div className="flex flex-col gap-2 py-2 px-4">
+                                    <div className="flex flex-col gap-4 py-2">
                                         {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
                                         {searchResults && searchResults.map((searchItem, index) => {
                                             return (
