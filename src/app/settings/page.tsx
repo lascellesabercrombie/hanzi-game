@@ -56,7 +56,7 @@ export default function Settings() {
                                                 name={name}
                                                 value={name}
                                                 checked={state}
-                                                className={`${state ? 'bg-cyan-800' : 'bg-cyan-600'}
+                                                className={`${state ? 'bg-cyan-700' : 'bg-slate-500'}
                                             relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                                                 id={`checkbox-${name}`}
                                                 onChange={() => onToggleSetting(localStorageKey, state, setState)}
