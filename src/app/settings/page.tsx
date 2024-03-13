@@ -1,35 +1,45 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getInitialState } from "@/src/helpers/getInitialState"
 import { onToggleSetting } from "@/src/helpers/onToggleSetting"
 import { Title } from "@/src/components/Title"
 import { Switch } from "@headlessui/react"
 
+interface Option {
+    name: string,
+    localStorageKey: string,
+    state: boolean,
+    setState: (state: boolean) => void
+}
+
 export default function Settings() {
     const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
     const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
     const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
+    const [options, setOptions] = useState<Array<Option>>([])
+    useEffect(() => {
 
-    const options = [
-        {
-            name: 'Show definition',
-            localStorageKey: 'isDefinitionVisible',
-            state: isDefinitionVisible,
-            setState: setIsDefinitionVisible
-        },
-        {
-            name: 'Show pronunciation (Mandarin)',
-            localStorageKey: 'isPronunciationVisible',
-            state: isPronunciationVisible,
-            setState: setIsPronunciationVisible
-        },
-        {
-            name: 'Show character outline',
-            localStorageKey: 'isCharacterOutlineVisible',
-            state: isCharacterOutlineVisible,
-            setState: setIsCharacterOutlineVisible
-        },
-    ]
+        setOptions([
+            {
+                name: 'Show definition',
+                localStorageKey: 'isDefinitionVisible',
+                state: isDefinitionVisible,
+                setState: setIsDefinitionVisible
+            },
+            {
+                name: 'Show pronunciation (Mandarin)',
+                localStorageKey: 'isPronunciationVisible',
+                state: isPronunciationVisible,
+                setState: setIsPronunciationVisible
+            },
+            {
+                name: 'Show character outline',
+                localStorageKey: 'isCharacterOutlineVisible',
+                state: isCharacterOutlineVisible,
+                setState: setIsCharacterOutlineVisible
+            },
+        ])
+    }, [isDefinitionVisible, isPronunciationVisible, isCharacterOutlineVisible])
 
     return (
         <main>
@@ -46,7 +56,7 @@ export default function Settings() {
                                                 name={name}
                                                 value={name}
                                                 checked={state}
-                                                className={`${state ? 'bg-cyan-950' : 'bg-cyan-700'}
+                                                className={`${state ? 'bg-cyan-800' : 'bg-cyan-600'}
                                             relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
                                                 id={`checkbox-${name}`}
                                                 onChange={() => onToggleSetting(localStorageKey, state, setState)}
