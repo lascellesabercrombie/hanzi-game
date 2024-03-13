@@ -10,8 +10,6 @@ import { DeleteModal } from "@/src/components/DeleteModal";
 import { IconButton } from "@/src/components/IconButton";
 import { Title } from "@/src/components/Title";
 import Slider from "react-slick"
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 type CharacterMetadata = {
   definition?: string,
