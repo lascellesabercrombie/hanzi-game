@@ -11,7 +11,7 @@
 .slick-slide > div { padding: 0 0.2rem; }
 .slick-track {
   padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.4rem;
 }
 
 @media (prefers-color-scheme: dark) {
