@@ -11,4 +11,6 @@ CREATE TABLE unihan_characters (
     khanyupinyin TEXT
     );
 
+CREATE INDEX name ON unihan_characters USING GIN (to_tsvector(kdefinition));
+
 COMMIT;
