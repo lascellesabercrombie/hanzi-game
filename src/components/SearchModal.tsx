@@ -18,9 +18,9 @@ interface SearchResult {
 }
 
 interface FetchDefinitionResultItem {
-    string: string,
-    kDefinition?: string,
-    kMandarin?: string
+    character: string,
+    kdefinition?: string,
+    kmandarin?: string
 }
 
 export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: SearchModalProps) => {
@@ -67,13 +67,16 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                         closeModal()
                                     }
                                     if (typeof query === "string" && validateInput(query) === "english") {
-                                        fetch(`http://ccdb.hemiola.com/characters/definition/${query}?fields=string,kDefinition,kMandarin`)
-                                            .then((response) => { setSearchResults([]); return response.json(); })
+                                        fetch(`api/search-by-definition/?query=${query}`)
+                                            .then((response) => {
+                                                setSearchResults([]);
+                                                return response.json()
+                                            })
                                             .then((data) => {
                                                 const array: Array<SearchResult> = []
                                                 if (data) {
                                                     data.map((datum: FetchDefinitionResultItem) => {
-                                                        array.push({ character: datum["string"], definition: datum["kDefinition"], pronunciation: convertPinyin(datum?.["kMandarin"]?.split(" ")?.[0]) })
+                                                        array.push({ character: datum["character"], definition: datum["kdefinition"], pronunciation: datum["kmandarin"] })
                                                     })
                                                     setSearchResults(array)
                                                 }
