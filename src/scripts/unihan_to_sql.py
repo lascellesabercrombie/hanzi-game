@@ -9,7 +9,7 @@ def convert_to_sql(input_file, output_file):
                 unicode_char = chr(int(character_code[2:], 16))
                 try:
                     attribute = parts[1].lower()
-                    value = parts[2]
+                    value = parts[2].replace("'", "''")
                 except IndexError:
                     attribute = "Unknown"
                     value = "Unknown"
