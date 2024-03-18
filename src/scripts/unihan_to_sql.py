@@ -5,7 +5,8 @@ def convert_to_sql(input_file, output_file):
         for line in infile:
             if line.strip():
                 parts = line.strip().split('\t')
-                unicode_char = parts[0]
+                character_code = parts[0]
+                unicode_char = chr(int(character_code[2:], 16))
                 try:
                     attribute = parts[1].lower()
                     value = parts[2]
