@@ -1,7 +1,7 @@
 'use client'
 import HanziWriter from "hanzi-writer"
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { convertPinyin } from '../../helpers/ccdbUtils'
+// import { convertPinyin } from '../../helpers/ccdbUtils'
 import { getInitialState } from "@/src/helpers/getInitialState";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
@@ -74,20 +74,27 @@ export default function Home() {
   }
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/search-by-character/?query=${chosenCharacter}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const jsonData = await response.json();
+        setCharacterMetadata(
+          {
+            "definition": jsonData?.["kdefinition"],
+            "pronunciation": jsonData?.["kmandarin"]
+          })
+        setShowCard(true)
+      } catch (error) {
+        throw new Error
+      }
+    };
     if (chosenCharacter) {
-      fetch(`http://ccdb.hemiola.com/characters/string/${chosenCharacter}?fields=kDefinition,kMandarin`)
-        .then((response) => response.json())
-        .then((data) => {
-          // currently only takes the first possible pronunciation of a character provided
-          setCharacterMetadata(
-            {
-              "definition": data?.[0]?.["kDefinition"],
-              "pronunciation": convertPinyin(data?.[0]?.["kMandarin"]?.split(" ")?.[0])
-            })
-          setShowCard(true)
-        })
+      fetchData();
     }
-  }, [chosenCharacter])
+  }, [chosenCharacter]); //
 
   useEffect(() => {
     const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
