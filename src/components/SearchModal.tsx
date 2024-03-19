@@ -93,7 +93,7 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                     </div>
                                 </form>
                                 <Suspense fallback={<p>Loading</p>}>
-                                    <div className="flex flex-col gap-4 py-2">
+                                    <div className="flex flex-col gap-4 max-h-[40vh] py-2 overflow-y-auto">
                                         {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
                                         {searchResults && searchResults.map((searchItem, index) => {
                                             return (
