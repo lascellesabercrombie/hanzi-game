@@ -1,9 +1,7 @@
-const pg = require("pg");
+import pg from 'pg';
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
-}
+const { Pool } = pg;
 
-export const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+export const db = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+})
