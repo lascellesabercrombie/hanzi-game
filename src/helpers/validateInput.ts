@@ -8,4 +8,5 @@ export const validateInput = (input: string) => {
     if (englishWordRegex.test(input)) {
         return "english"
     }
+    return false
 }
