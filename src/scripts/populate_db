@@ -6,6 +6,6 @@ set -e
 # import .env so we can access DB URL
 . "./.env.development.local"
 
-psql $DATABASE_URL -q -f "src/database/init.sql"
-psql $DATABASE_URL -q -f "src/database/character_info_inserts.sql"
+psql $POSTGRES_URL -q -f "src/database/init.sql"
+psql $POSTGRES_URL -q -f "src/database/character_info_inserts.sql"
 echo "Populated database tables"
