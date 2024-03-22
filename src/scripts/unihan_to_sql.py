@@ -1,3 +1,5 @@
+from find_possible_characters import possible_characters
+
 def convert_to_sql(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as infile, open(output_file, 'w', encoding='utf-8') as outfile:
         for _ in range(start_line):
@@ -7,12 +9,15 @@ def convert_to_sql(input_file, output_file):
                 parts = line.strip().split('\t')
                 character_code = parts[0]
                 unicode_char = chr(int(character_code[2:], 16))
-                try:
-                    attribute = parts[1].lower()
-                    value = parts[2].replace("'", "''")
-                except IndexError:
-                    attribute = "Unknown"
-                    value = "Unknown"
+                if unicode_char in possible_characters:
+                    try:
+                        attribute = parts[1].lower()
+                        value = parts[2].replace("'", "''")
+                    except IndexError:
+                        attribute = "Unknown"
+                        value = "Unknown"
+                else:
+                    continue
 
             sql_statement = (
     f"INSERT INTO unihan_characters (character, {attribute}) "
