@@ -1,4 +1,4 @@
-import { Fragment, Suspense, useContext, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { CharacterContext, CharacterContextType } from './ParentWrapper'
 import { validateInput } from '../helpers/validateInput';
@@ -67,9 +67,10 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                         closeModal()
                                     }
                                     if (typeof query === "string" && validateInput(query) === "english") {
+                                        setSearchResults(null);
                                         fetch(`api/search-by-definition/?query=${query}`)
                                             .then((response) => {
-                                                setSearchResults([]);
+
                                                 return response.json()
                                             })
                                             .then((data) => {
@@ -92,27 +93,27 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                         </button>
                                     </div>
                                 </form>
-                                <Suspense fallback={<p>Loading</p>}>
-                                    <div className="flex flex-col gap-4 max-h-[40vh] py-2 overflow-y-auto">
-                                        {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
-                                        {searchResults && searchResults.map((searchItem, index) => {
-                                            return (
-                                                <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl shadow-lg px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
-                                                    onAddToCharacterSet(searchItem["character"])
-                                                    setSearchResults([])
-                                                    closeModal()
-                                                }}>
-                                                    <h2 className="text-3xl">{searchItem["character"]}</h2>
-                                                    <div className="flex flex-col text-left">
-                                                        <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
-                                                        <h4 className="text-base">{searchItem["definition"]}</h4>
-                                                    </div>
-                                                </button>
-                                            )
-                                        })
-                                        }
-                                    </div>
-                                </Suspense>
+                                {searchResults ? <div className="flex flex-col gap-4 max-h-[40vh] py-2 overflow-y-auto">
+                                    {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
+                                    {searchResults && searchResults.map((searchItem, index) => {
+                                        return (
+                                            <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl shadow-lg px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
+                                                onAddToCharacterSet(searchItem["character"])
+                                                setSearchResults([])
+                                                closeModal()
+                                            }}>
+                                                <h2 className="text-3xl">{searchItem["character"]}</h2>
+                                                <div className="flex flex-col text-left">
+                                                    <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
+                                                    <h4 className="text-base">{searchItem["definition"]}</h4>
+                                                </div>
+                                            </button>
+                                        )
+                                    })
+                                    }
+                                </div> :
+                                    <p>Loading...</p>}
+
                             </div>
                         </Dialog.Panel>
                     </Transition.Child>
