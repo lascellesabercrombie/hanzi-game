@@ -1,7 +1,6 @@
 'use client'
 import HanziWriter from "hanzi-writer"
 import React, { useContext, useEffect, useState, useRef } from 'react';
-// import { convertPinyin } from '../../helpers/ccdbUtils'
 import { getInitialState } from "@/src/helpers/getInitialState";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
@@ -94,7 +93,7 @@ export default function Home() {
     if (chosenCharacter) {
       fetchData();
     }
-  }, [chosenCharacter]); //
+  }, [chosenCharacter]);
 
   useEffect(() => {
     const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
