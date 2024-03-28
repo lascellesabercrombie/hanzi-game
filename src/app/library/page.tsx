@@ -12,6 +12,7 @@ import SvgAdd from "@/public/character/SvgAdd";
 export default function Library() {
     const [characterSet, setCharacterSet] = useState(new Set<string>())
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isResultsListVisible, setIsResultsListVisible] = useState(false)
     const { onSelectChosenCharacter } = useContext(CharacterContext) as CharacterContextType
     const router = useRouter()
 
@@ -19,7 +20,12 @@ export default function Library() {
         setIsModalOpen(false)
     }
 
+    const onSetIsResultsListVisible = (bool: boolean) => {
+        setIsResultsListVisible(bool)
+    }
+
     const openModal = () => {
+        setIsResultsListVisible(false)
         setIsModalOpen(true)
     }
 
@@ -72,7 +78,7 @@ export default function Library() {
                     >{character}</button>
                 )}
             </div>
-            <SearchModal isModalOpen={isModalOpen} closeModal={closeModal} onAddToCharacterSet={onAddToCharacterSet} />
+            <SearchModal isModalOpen={isModalOpen} closeModal={closeModal} isResultsListVisible={isResultsListVisible} onSetIsResultsListVisible={onSetIsResultsListVisible} onAddToCharacterSet={onAddToCharacterSet} />
         </main>
     )
 }

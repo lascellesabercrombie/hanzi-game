@@ -7,6 +7,8 @@ import SvgSearch from '@/public/character/SvgSearch';
 interface SearchModalProps {
     isModalOpen: boolean,
     closeModal: () => void,
+    isResultsListVisible: boolean,
+    onSetIsResultsListVisible: (bool: boolean) => void,
     onAddToCharacterSet: (itemToAdd: string) => void
 }
 
@@ -22,10 +24,9 @@ interface FetchDefinitionResultItem {
     kmandarin?: string
 }
 
-export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: SearchModalProps) => {
+export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onSetIsResultsListVisible, onAddToCharacterSet }: SearchModalProps) => {
     const { chosenCharacter } = useContext(CharacterContext) as CharacterContextType
     const [searchResults, setSearchResults] = useState<null | Array<SearchResult>>(null)
-
     return (<Transition appear show={isModalOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
             <Transition.Child
@@ -66,6 +67,7 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                         closeModal()
                                     }
                                     if (typeof query === "string" && validateInput(query) === "english") {
+                                        onSetIsResultsListVisible(true)
                                         setSearchResults(null);
                                         fetch(`api/search-by-definition/?query=${query}`)
                                             .then((response) => {
@@ -92,26 +94,28 @@ export const SearchModal = ({ isModalOpen, closeModal, onAddToCharacterSet }: Se
                                         </button>
                                     </div>
                                 </form>
-                                {searchResults ? <div className="flex flex-col gap-4 max-h-[40vh] py-2 overflow-y-auto">
-                                    {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
-                                    {searchResults && searchResults.map((searchItem, index) => {
-                                        return (
-                                            <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl shadow-lg px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
-                                                onAddToCharacterSet(searchItem["character"])
-                                                setSearchResults([])
-                                                closeModal()
-                                            }}>
-                                                <h2 className="text-3xl">{searchItem["character"]}</h2>
-                                                <div className="flex flex-col text-left">
-                                                    <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
-                                                    <h4 className="text-base">{searchItem["definition"]}</h4>
-                                                </div>
-                                            </button>
-                                        )
-                                    })
-                                    }
-                                </div> :
-                                    <p>Loading...</p>}
+                                {isResultsListVisible && <div>
+                                    {searchResults ? <div className="flex flex-col gap-4 max-h-[40vh] py-2 overflow-y-auto">
+                                        {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
+                                        {searchResults && searchResults.map((searchItem, index) => {
+                                            return (
+                                                <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl shadow-lg px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
+                                                    onAddToCharacterSet(searchItem["character"])
+                                                    setSearchResults([])
+                                                    closeModal()
+                                                }}>
+                                                    <h2 className="text-3xl">{searchItem["character"]}</h2>
+                                                    <div className="flex flex-col text-left">
+                                                        <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
+                                                        <h4 className="text-base">{searchItem["definition"]}</h4>
+                                                    </div>
+                                                </button>
+                                            )
+                                        })
+                                        }
+                                    </div> :
+                                        <p>Loading...</p>}
+                                </div>}
 
                             </div>
                         </Dialog.Panel>
