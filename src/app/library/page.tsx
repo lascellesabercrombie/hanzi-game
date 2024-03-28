@@ -6,9 +6,6 @@ import { useRouter } from 'next/navigation'
 import { Title } from "@/src/components/Title";
 import SvgAdd from "@/public/character/SvgAdd";
 
-
-
-
 export default function Library() {
     const [characterSet, setCharacterSet] = useState(new Set<string>())
     const [isModalOpen, setIsModalOpen] = useState(false)
