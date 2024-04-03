@@ -4,7 +4,7 @@
 
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
-import Settings from '../src/app/settings/page'
+import Settings from '../../src/app/settings/page'
 
 describe('Settings', () => {
     it('renders a heading', () => {

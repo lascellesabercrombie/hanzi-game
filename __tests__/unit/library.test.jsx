@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { validateInput } from '../src/helpers/validateInput'
+import { validateInput } from '../../src/helpers/validateInput'
 
 describe('Library', () => {
     describe('Search', () => {
