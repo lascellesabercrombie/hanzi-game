@@ -62,7 +62,7 @@ export default function Library() {
                     <SvgAdd className="w-8 h-8 *:stroke-slate-200" />
                     <span>Add character to library</span>
                 </button>
-                <h3>Press a character to practise writing it</h3>
+                <h2>Press a character to practise writing it</h2>
             </div>
 
             <div className="grid grid-cols-3 gap-6 px-6 py-2">
