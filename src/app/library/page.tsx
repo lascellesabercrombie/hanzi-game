@@ -58,8 +58,8 @@ export default function Library() {
         <main className="flex flex-col">
             <Title>Library</Title>
             <div className="flex flex-col justify-center px-6 pb-2 pt-4 gap-3">
-                <button className="bg-cyan-700 flex rounded-lg pl-2 pr-4 py-2 w-fit shadow-lg text-slate-200 font-medium justify-center items-center" onClick={openModal}>
-                    <SvgAdd className="w-8 h-8 *:stroke-slate-200" />
+                <button className="bg-cyan-800 flex rounded-lg pl-2 pr-4 py-2 w-fit shadow-lg text-slate-200 font-medium justify-center items-center" onClick={openModal}>
+                    <SvgAdd className="w-8 h-8 *:stroke-slate-100" />
                     <span>Add character to library</span>
                 </button>
                 <h2>Press a character to practise writing it</h2>
