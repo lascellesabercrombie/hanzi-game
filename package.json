@@ -12,6 +12,7 @@
     "e2e": "playwright test"
   },
   "dependencies": {
+    "@axe-core/playwright": "^4.9.0",
     "@headlessui/react": "^1.7.18",
     "@vercel/postgres": "^0.7.2",
     "hanzi-writer": "^3.6.1",
