@@ -20,15 +20,18 @@ export default function Navbar() {
     ["Settings", "/settings", <SvgSettings className={`border-solid border-2 rounded-lg max-h-full max-w-10 p-0.5 ${pathname === "/settings" ? currentPageStyling : otherPageStyling}`} key="settings" />]
   ]
 
-  return (<ul className="bg-cyan-950 fixed border-t-2 border-slate-200 bottom-0 max-h-14 min-w-full flex justify-around">
-    {navbarItems.map(([name, link, ImageComponent]) => (
-      <li className="flex" key={`navbar-item-${name}`}>
-        <Link href={link} className="p-2">
-          {ImageComponent}
-          <span className='sr-only'>{name}</span>
-        </Link>
-      </li>))}
+  return (
+    <nav>
+      <ul className="bg-cyan-950 fixed border-t-2 border-slate-200 bottom-0 max-h-14 min-w-full flex justify-around">
+        {navbarItems.map(([name, link, ImageComponent]) => (
+          <li className="flex" key={`navbar-item-${name}`}>
+            <Link href={link} className="p-2">
+              {ImageComponent}
+              <span className='sr-only'>{name}</span>
+            </Link>
+          </li>))}
 
-  </ul>
+      </ul>
+    </nav>
   )
 }
