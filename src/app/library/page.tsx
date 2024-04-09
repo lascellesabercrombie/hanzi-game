@@ -65,9 +65,9 @@ export default function Library() {
                 <h2>Press a character to practise writing it</h2>
             </div>
 
-            <div className="grid grid-cols-3 gap-6 justify-items-center px-6 py-2">
+            <div className="grid grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center px-6 py-2">
                 {Array.from(characterSet).map((character) =>
-                    <button className="py-6 px-2 min-w-[min(30vw,6rem)] max-w-28 bg-blue-100 rounded-xl text-3xl text-cyan-950 shadow-lg" key={`button-${character}`}
+                    <button className="py-6 px-2 min-w-[min(25vw,10rem)] min-h-[min(25vw,10rem)] bg-blue-100 rounded-xl text-[min(5rem,10vw)] text-cyan-950 shadow-lg" key={`button-${character}`}
                         onClick={() => {
                             onSelectChosenCharacter(character);
                             router.push('/practice')
