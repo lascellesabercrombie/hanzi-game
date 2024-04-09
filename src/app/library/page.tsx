@@ -58,7 +58,7 @@ export default function Library() {
         <main className="flex flex-col">
             <Title>Library</Title>
             <div className="flex flex-col justify-center px-6 pb-2 pt-4 gap-3">
-                <button className="bg-cyan-800 flex rounded-lg pl-2 pr-4 py-2 w-fit shadow-lg text-slate-200 font-medium justify-center items-center" onClick={openModal}>
+                <button className="bg-cyan-800 flex rounded-lg pl-2 pr-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center" onClick={openModal}>
                     <SvgAdd className="w-8 h-8 *:stroke-slate-100" />
                     <span>Add character to library</span>
                 </button>
@@ -67,12 +67,14 @@ export default function Library() {
 
             <div className="grid grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center px-6 py-2">
                 {Array.from(characterSet).map((character) =>
-                    <button className="py-6 px-2 min-w-[min(25vw,10rem)] min-h-[min(25vw,10rem)] bg-blue-100 rounded-xl text-[min(5rem,10vw)] text-cyan-950 shadow-lg" key={`button-${character}`}
+                    <button className="py-6 px-2 min-w-[min(25vw,10rem)] min-h-[min(25vw,10rem)] bg-blue-100 rounded-xl text-[min(5rem,10vw)] text-cyan-950 drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm" key={`button-${character}`}
                         onClick={() => {
                             onSelectChosenCharacter(character);
                             router.push('/practice')
                         }}
-                    >{character}</button>
+                    >
+                        {character}
+                    </button>
                 )}
             </div>
             <SearchModal isModalOpen={isModalOpen} closeModal={closeModal} isResultsListVisible={isResultsListVisible} onSetIsResultsListVisible={onSetIsResultsListVisible} onAddToCharacterSet={onAddToCharacterSet} />

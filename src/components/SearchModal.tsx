@@ -86,7 +86,7 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                                     }
                                 }}>
                                     <label htmlFor="characterInput">Search by character or English definition</label>
-                                    <div className="flex py-4">
+                                    <div className="flex py-4 px-2">
                                         <input className="border border-cyan-950 px-2" id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
                                         <button className="bg-cyan-950 p-2" type="submit">
                                             <SvgSearch className="w-4 h-4 *:stroke-neutral-100" />
@@ -95,11 +95,11 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                                     </div>
                                 </form>
                                 {isResultsListVisible && <div>
-                                    {searchResults ? <div className="flex flex-col gap-4 max-h-[40vh] py-2 overflow-y-auto">
+                                    {searchResults ? <div className="flex flex-col gap-4 max-h-[40vh] px-2 pt-2 pb-4 overflow-y-auto">
                                         {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
                                         {searchResults && searchResults.map((searchItem, index) => {
                                             return (
-                                                <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl shadow-lg px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
+                                                <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl drop-shadow-md hover:drop-shadow-lg active:drop-shadow-sm px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
                                                     onAddToCharacterSet(searchItem["character"])
                                                     setSearchResults([])
                                                     closeModal()
