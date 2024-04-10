@@ -52,72 +52,71 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-neutral-100 text-cyan-950 p-10 text-left align-middle shadow-xl transition-all">
-                            <Dialog.Title
-                                as="h3"
-                                className="text-lg font-medium leading-6"
-                            >
-                                Add character to library
-                            </Dialog.Title>
-                            <div className="flex flex-col mt-6 justify-between">
-                                <form action={(formData) => {
-                                    const query = formData.get("newCharacter");
-                                    if (typeof query === "string" && validateInput(query) === "chinese") {
-                                        onAddToCharacterSet(query)
-                                        closeModal()
-                                    }
-                                    if (typeof query === "string" && validateInput(query) === "english") {
-                                        onSetIsResultsListVisible(true)
-                                        setSearchResults(null);
-                                        fetch(`api/search-by-definition/?query=${query}`)
-                                            .then((response) => {
-
-                                                return response.json()
-                                            })
-                                            .then((data) => {
-                                                const array: Array<SearchResult> = []
-                                                if (data) {
-                                                    data.map((datum: FetchDefinitionResultItem) => {
-                                                        array.push({ character: datum["character"], definition: datum["kdefinition"], pronunciation: datum["kmandarin"] })
-                                                    })
-                                                    setSearchResults(array)
-                                                }
-                                            })
-                                    }
-                                }}>
-                                    <label htmlFor="characterInput">Search by character or English definition</label>
-                                    <div className="flex py-4 px-2">
-                                        <input className="border border-cyan-950 px-2" id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
-                                        <button className="bg-cyan-950 p-2" type="submit">
-                                            <SvgSearch className="w-4 h-4 *:stroke-neutral-100" />
-                                            <span className="sr-only">Search</span>
-                                        </button>
-                                    </div>
-                                </form>
-                                {isResultsListVisible && <div>
-                                    {searchResults ? <div className="flex flex-col gap-4 max-h-[40vh] px-2 pt-2 pb-4 overflow-y-auto">
-                                        {(searchResults && searchResults.length === 0) && (<div>No results found</div>)}
-                                        {searchResults && searchResults.map((searchItem, index) => {
-                                            return (
-                                                <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl drop-shadow-md hover:drop-shadow-lg active:drop-shadow-sm px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
-                                                    onAddToCharacterSet(searchItem["character"])
-                                                    setSearchResults([])
-                                                    closeModal()
-                                                }}>
-                                                    <h2 className="text-3xl">{searchItem["character"]}</h2>
-                                                    <div className="flex flex-col text-left">
-                                                        <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
-                                                        <h4 className="text-base">{searchItem["definition"]}</h4>
-                                                    </div>
-                                                </button>
-                                            )
-                                        })
+                        <Dialog.Panel className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-neutral-100 text-cyan-950 py-10 px-8 text-left align-middle shadow-xl transition-all">
+                            <div className="px-2">
+                                <Dialog.Title
+                                    as="h3"
+                                    className="text-lg font-medium leading-6"
+                                >
+                                    Add character to library
+                                </Dialog.Title>
+                                <div className="flex flex-col mt-6 justify-between">
+                                    <form action={(formData) => {
+                                        const query = formData.get("newCharacter");
+                                        if (typeof query === "string" && validateInput(query) === "chinese") {
+                                            onAddToCharacterSet(query)
+                                            closeModal()
                                         }
-                                    </div> :
-                                        <p>Loading...</p>}
-                                </div>}
+                                        if (typeof query === "string" && validateInput(query) === "english") {
+                                            onSetIsResultsListVisible(true)
+                                            setSearchResults(null);
+                                            fetch(`api/search-by-definition/?query=${query}`)
+                                                .then((response) => {
 
+                                                    return response.json()
+                                                })
+                                                .then((data) => {
+                                                    const array: Array<SearchResult> = []
+                                                    if (data) {
+                                                        data.map((datum: FetchDefinitionResultItem) => {
+                                                            array.push({ character: datum["character"], definition: datum["kdefinition"], pronunciation: datum["kmandarin"] })
+                                                        })
+                                                        setSearchResults(array)
+                                                    }
+                                                })
+                                        }
+                                    }}>
+                                        <label htmlFor="characterInput">Search by character or English definition</label>
+                                        <div className="flex py-4">
+                                            <input className="border border-cyan-950 px-2" id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
+                                            <button className="bg-cyan-950 p-2" type="submit">
+                                                <SvgSearch className="w-4 h-4 *:stroke-neutral-100" />
+                                                <span className="sr-only">Search</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
+                            {isResultsListVisible && <div className="flex flex-col gap-4 max-h-[40vh] pt-2 pb-4 px-2 overflow-y-auto">
+                                {!searchResults && <p>Loading...</p>}
+                                {(searchResults && searchResults.length === 0) && (<p>No results found</p>)}
+                                {searchResults && searchResults.map((searchItem, index) => {
+                                    return (
+                                        <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl drop-shadow-md hover:drop-shadow-lg active:drop-shadow-sm px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
+                                            onAddToCharacterSet(searchItem["character"])
+                                            setSearchResults([])
+                                            closeModal()
+                                        }}>
+                                            <h2 className="text-3xl">{searchItem["character"]}</h2>
+                                            <div className="flex flex-col text-left">
+                                                <h3 className="text-lg">{searchItem["pronunciation"]}</h3>
+                                                <h4 className="text-base">{searchItem["definition"]}</h4>
+                                            </div>
+                                        </button>
+                                    )
+                                })
+                                }
+                            </div>}
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>
