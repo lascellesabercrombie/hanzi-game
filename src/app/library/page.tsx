@@ -64,18 +64,19 @@ export default function Library() {
                 </button>
                 <h2>Press a character to practise writing it</h2>
             </div>
-
-            <div className="grid grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center px-6 py-2">
-                {Array.from(characterSet).map((character) =>
-                    <button className="py-6 px-2 min-w-[min(25vw,10rem)] min-h-[min(25vw,10rem)] bg-blue-100 rounded-xl text-[min(5rem,10vw)] text-cyan-950 drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm" key={`button-${character}`}
-                        onClick={() => {
-                            onSelectChosenCharacter(character);
-                            router.push('/practice')
-                        }}
-                    >
-                        {character}
-                    </button>
-                )}
+            <div className="p-6">
+                <div className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8 justify-items-center min-w-[80vw] px-6 py-4 border-2 border-slate-200 rounded-xl">
+                    {Array.from(characterSet).map((character) =>
+                        <button className="py-2 px-2 min-w-[min(20vw,10rem)] min-h-[min(20vw,10rem)] bg-blue-100 rounded-xl text-[min(5rem,10vw)] text-cyan-950 drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm" key={`button-${character}`}
+                            onClick={() => {
+                                onSelectChosenCharacter(character);
+                                router.push('/practice')
+                            }}
+                        >
+                            {character}
+                        </button>
+                    )}
+                </div>
             </div>
             <SearchModal isModalOpen={isModalOpen} closeModal={closeModal} isResultsListVisible={isResultsListVisible} onSetIsResultsListVisible={onSetIsResultsListVisible} onAddToCharacterSet={onAddToCharacterSet} />
         </main>
