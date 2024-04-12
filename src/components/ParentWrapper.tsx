@@ -1,9 +1,11 @@
 "use client"
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
-export type CharacterContextType = {
+export interface CharacterContextType {
+    characterSet: Set<string>,
     chosenCharacter: string,
     onSelectChosenCharacter: (character: string) => void,
+    onSetCharacterSet: (set: Set<string>) => void
 }
 
 export const CharacterContext = createContext<CharacterContextType | null>(null)
@@ -13,12 +15,35 @@ export default function ParentWrapper({
 }: {
     children: React.ReactNode
 }) {
+    const [characterSet, setCharacterSet] = useState(new Set<string>())
     const [chosenCharacter, setChosenCharacter] = useState('')
     const onSelectChosenCharacter = (character: string) => {
         setChosenCharacter(character)
     }
+    const onSetCharacterSet = (set: Set<string>) => {
+        setCharacterSet(new Set(set))
+    }
+    useEffect(() => {
+        const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
+            if (Array.isArray(value)) {
+                return new Set(value)
+            }
+            return value
+        });
+        if (storedCharacters && storedCharacters.size > 0) {
+            setCharacterSet(new Set(storedCharacters))
+        } else {
+            setCharacterSet(new Set(['的', '一', '是', '不', '	了']))
+        }
+    }, [])
+
+    useEffect(() => {
+        if (characterSet.size > 0) {
+            localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
+        }
+    }, [characterSet]);
     return (
-        <CharacterContext.Provider value={{ chosenCharacter, onSelectChosenCharacter }}>
+        <CharacterContext.Provider value={{ characterSet, chosenCharacter, onSelectChosenCharacter, onSetCharacterSet }}>
             {children}
         </ CharacterContext.Provider>
     )

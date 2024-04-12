@@ -24,8 +24,8 @@ interface CustomSlideProps {
 
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
-  const { chosenCharacter, onSelectChosenCharacter } = useContext(CharacterContext) as CharacterContextType
-  const [characterSet, setCharacterSet] = useState(new Set<string>())
+  const { characterSet, chosenCharacter, onSelectChosenCharacter, onSetCharacterSet } = useContext(CharacterContext) as CharacterContextType
+
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
   const [isReset, setIsReset] = useState(false)
@@ -65,11 +65,11 @@ export default function Home() {
   }
 
   const onDeleteCharacter = () => {
-    setCharacterSet((characterSet) => {
-      const newSet = new Set(characterSet);
-      newSet.delete(chosenCharacter);
-      return newSet;
-    });
+    // onSetCharacterSet((characterSet) => {
+    const newSet = new Set(characterSet);
+    newSet.delete(chosenCharacter);
+    onSetCharacterSet(newSet);
+    ;
   }
 
   useEffect(() => {
@@ -96,23 +96,7 @@ export default function Home() {
   }, [chosenCharacter]);
 
   useEffect(() => {
-    const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
-      if (Array.isArray(value)) {
-        return new Set(value)
-      }
-      return value
-    });
-    if (storedCharacters && storedCharacters.size > 0) {
-      setCharacterSet(new Set(storedCharacters))
-    } else {
-      setCharacterSet(new Set(['的', '一', '是', '不', '	了']))
-    }
-  }, [])
-
-  useEffect(() => {
-    if (characterSet.size > 0) {
-      localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
-    } else {
+    if (characterSet.size === 0) {
       setShowCard(false)
     }
 

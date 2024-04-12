@@ -7,10 +7,9 @@ import { Title } from "@/src/components/Title";
 import SvgAdd from "@/public/character/SvgAdd";
 
 export default function Library() {
-    const [characterSet, setCharacterSet] = useState(new Set<string>())
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isResultsListVisible, setIsResultsListVisible] = useState(false)
-    const { onSelectChosenCharacter } = useContext(CharacterContext) as CharacterContextType
+    const { characterSet, onSelectChosenCharacter, onSetCharacterSet } = useContext(CharacterContext) as CharacterContextType
     const router = useRouter()
 
     const closeModal = () => {
@@ -27,32 +26,10 @@ export default function Library() {
     }
 
     const onAddToCharacterSet = (itemToAdd: string) => {
-        setCharacterSet((characterSet) => {
-            const newSet = new Set(characterSet);
-            newSet.add(itemToAdd);
-            return newSet;
-        });
+        const newSet = new Set(characterSet);
+        newSet.add(itemToAdd);
+        onSetCharacterSet(newSet);
     }
-
-    useEffect(() => {
-        const storedCharacters = JSON.parse(localStorage.getItem('characters') || '{}', (key, value) => {
-            if (Array.isArray(value)) {
-                return new Set(value)
-            }
-            return value
-        });
-        if (storedCharacters && storedCharacters.size > 0) {
-            setCharacterSet(new Set(storedCharacters))
-        } else {
-            setCharacterSet(new Set(['的', '一', '是', '不', '	了']))
-        }
-    }, [])
-
-    useEffect(() => {
-        if (characterSet.size > 0) {
-            localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
-        }
-    }, [characterSet]);
 
     return (
         <main className="flex flex-col">
