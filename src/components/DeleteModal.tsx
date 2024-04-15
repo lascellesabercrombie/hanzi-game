@@ -48,6 +48,7 @@ export const DeleteModal = ({ characterSet, isModalOpen, closeModal, onDeleteCha
                             <div className="flex mt-6 justify-between">
                                 <button
                                     type="button"
+                                    data-testid="button-cancel"
                                     className="inline-flex justify-center rounded-md border border-cyan-950 bg-neutral-100 px-4 py-2 text-sm font-medium text-cyan-950 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     onClick={closeModal}
                                 >
@@ -55,6 +56,7 @@ export const DeleteModal = ({ characterSet, isModalOpen, closeModal, onDeleteCha
                                 </button>
                                 <button
                                     type="button"
+                                    data-testid="button-confirm"
                                     className="inline-flex justify-center rounded-md border border-red-700 bg-neutral-100  px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-700 hover:text-neutral-100 hover:border-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     onClick={() => {
                                         if (characterSet.size == 1) {

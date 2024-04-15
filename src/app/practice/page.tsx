@@ -153,12 +153,12 @@ export default function Home() {
           </div>
           <div className="flex flex-col items-center py-2 gap-2">
             <div className="flex gap-2">
-              <IconButton ariaLabel="Reset" onClick={() => {
+              <IconButton ariaLabel="Reset" dataTestId="button-reset-character" onClick={() => {
                 setIsReset(true)
               }}>
                 <SvgReset className="*:fill-cyan-950 max-w-5 max-h-5" />
               </IconButton>
-              <IconButton ariaLabel="Remove character from your library" onClick={() => {
+              <IconButton ariaLabel="Remove character from your library" dataTestId="button-remove-character" onClick={() => {
                 setIsModalOpen(true)
               }}>
                 <SvgDelete className="*:fill-cyan-950 max-w-6 max-h-6" />

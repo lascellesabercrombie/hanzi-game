@@ -88,7 +88,7 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                                     }}>
                                         <label htmlFor="characterInput">Search by character or English definition</label>
                                         <div className="flex py-4">
-                                            <input className="border border-cyan-950 px-2" id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$"></input>
+                                            <input className="border border-cyan-950 px-2" id="characterInput" type="text" name="newCharacter" pattern="^[a-zA-Z]+$|^[\u4E00-\u9FFF]{1}$" data-testid="input-search"></input>
                                             <button className="bg-cyan-950 p-2" type="submit">
                                                 <SvgSearch className="w-4 h-4 *:stroke-neutral-100" />
                                                 <span className="sr-only">Search</span>
@@ -97,7 +97,7 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                                     </form>
                                 </div>
                             </div>
-                            {isResultsListVisible && <div className="flex flex-col gap-4 max-h-[40vh] pt-2 pb-4 px-2 overflow-y-auto">
+                            {isResultsListVisible && <div className="flex flex-col gap-4 max-h-[40vh] pt-2 pb-4 px-2 overflow-y-auto" data-testid="div-results-list">
                                 {!searchResults && <p>Loading...</p>}
                                 {(searchResults && searchResults.length === 0) && (<p>No results found</p>)}
                                 {searchResults && searchResults.map((searchItem, index) => {
