@@ -8,18 +8,11 @@ import SvgDelete from "@/public/character/SvgDelete";
 import { DeleteModal } from "@/src/components/DeleteModal";
 import { IconButton } from "@/src/components/IconButton";
 import { Title } from "@/src/components/Title";
-import Slider from "react-slick"
+import { CharacterGrid } from "@/src/components/CharacterGrid";
 
 type CharacterMetadata = {
   definition?: string,
   pronunciation?: string
-}
-
-interface CustomSlideProps {
-  children: string,
-  className: string,
-  key: string,
-  onClick: () => void,
 }
 
 export default function Home() {
@@ -37,39 +30,14 @@ export default function Home() {
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
   const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1
-  }
-
-  function CustomSlide(props: CustomSlideProps) {
-    const { children, ...otherProps } = props;
-
-    return (
-      <button {...otherProps}>
-        {children}
-      </button>
-    );
-  }
-
-
   const closeModal = () => {
     setIsModalOpen(false)
   }
 
-  const openModal = () => {
-    setIsModalOpen(true)
-  }
-
   const onDeleteCharacter = () => {
-    // onSetCharacterSet((characterSet) => {
     const newSet = new Set(characterSet);
     newSet.delete(chosenCharacter);
     onSetCharacterSet(newSet);
-    ;
   }
 
   useEffect(() => {
@@ -174,30 +142,7 @@ export default function Home() {
       {!showCard && characterSet.size === 0 &&
         <p className="max-w-sm">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
       }
-      <div className="w-3/4 mx-auto">
-        <Slider {...settings}>
-          {Array.from(characterSet).map((character, index) =>
-            <CustomSlide
-              className="py-4 px-4 bg-neutral-100 rounded-xl shadow-md text-cyan-950 text-5xl"
-              key={`button-${index}`}
-              onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}
-            >
-              {character}
-            </CustomSlide>
-          )}
-        </Slider>
-      </div>
-      {/* <section className="flex flex-col">
-        <div className="flex flex-col pb-4">
-          <h2 className="mx-auto">Your characters</h2>
-          <h3>Select a character to practise it</h3>
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          {Array.from(characterSet).map((character) =>
-            <button className="py-4 px-4 min-w-3 min-h-3 max-w-sm bg-blue-200 rounded-xl" key={`button-${character}`} onClick={() => { setShowCard(true); onSelectChosenCharacter(character) }}>{character}</button>
-          )}
-        </div>
-      </section> */}
+      <CharacterGrid />
       <DeleteModal characterSet={characterSet} isModalOpen={isModalOpen} closeModal={closeModal} onDeleteCharacter={onDeleteCharacter} />
     </main >
   );
