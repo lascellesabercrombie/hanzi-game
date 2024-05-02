@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
-import { getInitialState } from "@/src/helpers/getInitialState"
+import { getInitialStateBool } from "@/src/helpers/getInitialStateBool"
+import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber"
 import { onToggleSetting } from "@/src/helpers/onToggleSetting"
 import { Title } from "@/src/components/Title"
 import { Switch } from "@headlessui/react"
@@ -13,10 +14,31 @@ interface Option {
 }
 
 export default function Settings() {
-    const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
-    const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
-    const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
+    const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', 200))
+    const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialStateBool('isDefinitionVisible', true))
+    const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialStateBool('isPronunciationVisible', true))
+    const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
     const [options, setOptions] = useState<Array<Option>>([])
+
+    function onChooseSize(size: "small" | "medium" | "large") {
+        switch (size) {
+            case "small":
+                setCharacterSize(100)
+                localStorage.setItem('characterSize', (100).toString())
+                break;
+            case "medium":
+                setCharacterSize(200)
+                localStorage.setItem('characterSize', (200).toString())
+                break;
+            case "large":
+                const large = Math.min(window.innerWidth - 100, 400)
+                setCharacterSize(large)
+                localStorage.setItem('characterSize', (large).toString())
+                break;
+        }
+
+    }
+
     useEffect(() => {
 
         setOptions([
@@ -70,6 +92,11 @@ export default function Settings() {
                                             <Switch.Label className="pl-2">{name}</Switch.Label>
                                         </div>
                                     </Switch.Group>
+                                    <div>
+                                        <button onClick={() => onChooseSize("small")}>small</button><br></br>
+                                        <button onClick={() => onChooseSize("medium")}>medium</button><br></br>
+                                        <button onClick={() => onChooseSize("large")}>big</button><br></br>
+                                    </div>
                                 </div>
                             </li>
                         );

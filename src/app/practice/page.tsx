@@ -1,7 +1,8 @@
 'use client'
 import HanziWriter from "hanzi-writer"
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { getInitialState } from "@/src/helpers/getInitialState";
+import { getInitialStateBool } from "@/src/helpers/getInitialStateBool";
+import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
 import SvgDelete from "@/public/character/SvgDelete";
@@ -25,10 +26,10 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const targetDivRef = useRef<null | HTMLDivElement>(null);
-
-  const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialState('isDefinitionVisible', true))
-  const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialState('isPronunciationVisible', true))
-  const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialState('isCharacterOutlineVisible', true))
+  const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', 200))
+  const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialStateBool('isDefinitionVisible', true))
+  const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialStateBool('isPronunciationVisible', true))
+  const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -84,8 +85,8 @@ export default function Home() {
       }
       if (targetDiv !== null) {
         const writer = HanziWriter.create(targetDiv, chosenCharacter, {
-          width: 200,
-          height: 200,
+          width: characterSize,
+          height: characterSize,
           padding: 0,
           showOutline: isCharacterOutlineVisible
         });
@@ -106,7 +107,7 @@ export default function Home() {
         };
       }
     }
-  }, [chosenCharacter, isReset, isCharacterOutlineVisible, showCard]);
+  }, [characterSize, chosenCharacter, isReset, isCharacterOutlineVisible, showCard]);
 
   return (
     <main className="flex flex-col">
@@ -114,7 +115,7 @@ export default function Home() {
       <Title>Practise writing Chinese characters</Title>
       {showCard &&
         <div className="flex flex-col pt-4 pb-2 px-2">
-          <div className="bg-neutral-100 flex max-h-72 min-w-64 min-h-64 max-w-sm mx-auto rounded-xl shadow-lg items-center justify-center">
+          <div className="bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center">
             <div className="flex justify-center" ref={targetDivRef}></div>
             <div className="flex flex-col justify-center">
             </div>
