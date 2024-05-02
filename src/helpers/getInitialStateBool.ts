@@ -1,4 +1,4 @@
-export const getInitialState = (key: string, fallback: boolean) => {
+export const getInitialStateBool = (key: string, fallback: boolean) => {
     if (typeof window === "undefined" || localStorage.getItem(key) === null) {
         return fallback
     }
