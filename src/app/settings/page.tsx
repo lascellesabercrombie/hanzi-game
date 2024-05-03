@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from "react"
+import { availableSizes } from "../constants/availableSizes"
 import { getInitialStateBool } from "@/src/helpers/getInitialStateBool"
 import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber"
 import { onToggleSetting } from "@/src/helpers/onToggleSetting"
@@ -12,19 +13,6 @@ interface Option {
     state: boolean,
     setState: (state: boolean) => void
 }
-
-interface SizeOption {
-    id: number,
-    name: string,
-    radioStyle: string,
-    value: number
-}
-
-export const availableSizes: ReadonlyArray<SizeOption> = [
-    { id: 1, name: "Small", radioStyle: "text-sm", value: 100 },
-    { id: 2, name: "Medium", radioStyle: "text-lg", value: 200 },
-    { id: 3, name: "Large", radioStyle: "text-2xl", value: 400 }
-]
 
 export default function Settings() {
     const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', availableSizes[1]["id"]))

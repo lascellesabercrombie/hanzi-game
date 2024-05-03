@@ -3,7 +3,7 @@ import HanziWriter from "hanzi-writer"
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { getInitialStateBool } from "@/src/helpers/getInitialStateBool";
 import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber";
-import { availableSizes } from "../settings/page";
+import { availableSizes } from "../constants/availableSizes"
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
 import SvgDelete from "@/public/character/SvgDelete";
