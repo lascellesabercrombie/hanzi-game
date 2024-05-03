@@ -3,6 +3,7 @@ import HanziWriter from "hanzi-writer"
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { getInitialStateBool } from "@/src/helpers/getInitialStateBool";
 import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber";
+import { availableSizes } from "../settings/page";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
 import SvgDelete from "@/public/character/SvgDelete";
@@ -26,11 +27,11 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const targetDivRef = useRef<null | HTMLDivElement>(null);
-  const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', 200))
+  const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', availableSizes[1]["id"]))
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialStateBool('isDefinitionVisible', true))
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialStateBool('isPronunciationVisible', true))
   const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
-
+  const [characterSizeValue, setCharacterSizeValue] = useState(availableSizes[1]["value"])
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -76,7 +77,14 @@ export default function Home() {
       onSelectChosenCharacter(characterSet.values().next().value)
     }
   }, [characterSet, chosenCharacter, onSelectChosenCharacter])
-
+  useEffect(() => {
+    let value = availableSizes.find(object => object.id === characterSize)?.["value"]
+    if (value && characterSize < 2) {
+      setCharacterSizeValue(value)
+    } else if (value && characterSize >= 2) {
+      setCharacterSizeValue(Math.min(window.innerWidth, value))
+    }
+  }, [characterSize])
   useEffect(() => {
     if (showCard) {
       const targetDiv: null | HTMLDivElement = targetDivRef.current
@@ -85,8 +93,8 @@ export default function Home() {
       }
       if (targetDiv !== null) {
         const writer = HanziWriter.create(targetDiv, chosenCharacter, {
-          width: characterSize,
-          height: characterSize,
+          width: characterSizeValue,
+          height: characterSizeValue,
           padding: 0,
           showOutline: isCharacterOutlineVisible
         });
@@ -107,7 +115,7 @@ export default function Home() {
         };
       }
     }
-  }, [characterSize, chosenCharacter, isReset, isCharacterOutlineVisible, showCard]);
+  }, [characterSizeValue, chosenCharacter, isReset, isCharacterOutlineVisible, showCard]);
 
   return (
     <main className="flex flex-col">
