@@ -111,7 +111,7 @@ export default function Settings() {
                                   relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                             }
                         >
-                            <div><span className="text-sm">田</span></div>
+                            <div><span aria-hidden className="text-sm">田</span></div>
                             <span className="text-md">{availableSizes[0]["name"]}</span>
                         </RadioGroup.Option>
                         <RadioGroup.Option
@@ -126,7 +126,7 @@ export default function Settings() {
                                   relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                             }
                         >
-                            <div><span className="text-lg">田</span></div>
+                            <div><span aria-hidden className="text-lg">田</span></div>
                             <span className="text-md">{availableSizes[1]["name"]}</span>
                         </RadioGroup.Option>
                         <RadioGroup.Option
@@ -141,7 +141,7 @@ export default function Settings() {
                                   relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                             }
                         >
-                            <div><span className="text-2xl">田</span></div>
+                            <div><span aria-hidden className="text-2xl">田</span></div>
                             <span className="text-md">{availableSizes[2]["name"]}</span>
                         </RadioGroup.Option>
                     </div>
