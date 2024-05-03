@@ -97,7 +97,7 @@ export default function Settings() {
                                         ? 'ring-2 ring-neutral-100/60 ring-offset-2 ring-offset-sky-300'
                                         : ''
                                     }
-                                ${checked ? 'bg-cyan-700 text-neutral-100' : 'bg-neutral-100'}
+                                ${checked ? 'bg-cyan-700 text-neutral-100' : 'bg-neutral-100 text-cyan-950'}
                                   relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                                 }
                             >
