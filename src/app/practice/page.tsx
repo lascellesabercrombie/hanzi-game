@@ -82,7 +82,7 @@ export default function Home() {
     if (value && characterSize < 2) {
       setCharacterSizeValue(value)
     } else if (value && characterSize >= 2) {
-      setCharacterSizeValue(Math.min(window.innerWidth, value))
+      setCharacterSizeValue(Math.min(window?.innerWidth || value, value))
     }
   }, [characterSize])
   useEffect(() => {
