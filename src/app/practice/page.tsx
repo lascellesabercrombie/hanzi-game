@@ -119,7 +119,6 @@ export default function Home() {
 
   return (
     <main className="flex flex-col">
-      {/* <section className=" w-screen"> */}
       <Title>Practise writing Chinese characters</Title>
       {showCard &&
         <div className="flex flex-col pt-4 pb-2 px-2">
