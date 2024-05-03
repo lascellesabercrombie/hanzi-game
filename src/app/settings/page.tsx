@@ -97,7 +97,7 @@ export default function Settings() {
 
                 </ul>
                 <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" value={characterSize} onChange={(e: number) => onChooseSize(e)}>
-                    <RadioGroup.Label className="text-lg">Size of practice character</RadioGroup.Label>
+                    <RadioGroup.Label className="text-md">Size of practice character</RadioGroup.Label>
                     <div className="flex gap-4 justify-center">
                         <RadioGroup.Option
                             key={availableSizes[0]["id"]}
