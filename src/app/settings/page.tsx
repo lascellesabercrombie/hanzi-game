@@ -16,13 +16,14 @@ interface Option {
 interface SizeOption {
     id: number,
     name: string,
+    radioStyle: string,
     value: number
 }
 
 export const availableSizes: ReadonlyArray<SizeOption> = [
-    { id: 1, name: "Small", value: 100 },
-    { id: 2, name: "Medium", value: 200 },
-    { id: 3, name: "Large", value: 400 }
+    { id: 1, name: "Small", radioStyle: "text-sm", value: 100 },
+    { id: 2, name: "Medium", radioStyle: "text-lg", value: 200 },
+    { id: 3, name: "Large", radioStyle: "text-2xl", value: 400 }
 ]
 
 export default function Settings() {
@@ -99,51 +100,23 @@ export default function Settings() {
                 <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" value={characterSize} onChange={(e: number) => onChooseSize(e)}>
                     <RadioGroup.Label className="text-md">Size of practice character</RadioGroup.Label>
                     <div className="flex gap-4 justify-center">
-                        <RadioGroup.Option
-                            key={availableSizes[0]["id"]}
-                            value={availableSizes[0]["id"]}
-                            className={({ active, checked }) =>
-                                `${active
-                                    ? 'ring-2 ring-neutral-100/60 ring-offset-2 ring-offset-sky-300'
-                                    : ''
-                                }
+                        {availableSizes.map((size) => (
+                            <RadioGroup.Option
+                                key={size["id"]}
+                                value={size["id"]}
+                                className={({ active, checked }) =>
+                                    `${active
+                                        ? 'ring-2 ring-neutral-100/60 ring-offset-2 ring-offset-sky-300'
+                                        : ''
+                                    }
                                 ${checked ? 'bg-cyan-700 text-neutral-100' : 'bg-neutral-100'}
                                   relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
-                            }
-                        >
-                            <div><span aria-hidden className="text-sm">田</span></div>
-                            <span className="text-md">{availableSizes[0]["name"]}</span>
-                        </RadioGroup.Option>
-                        <RadioGroup.Option
-                            key={availableSizes[1]["id"]}
-                            value={availableSizes[1]["id"]}
-                            className={({ active, checked }) =>
-                                `${active
-                                    ? 'ring-2 ring-neutral-100 ring-offset-2 ring-offset-cyan-200'
-                                    : ''
                                 }
-                                ${checked ? 'bg-cyan-700 text-neutral-100' : 'bg-neutral-100'}
-                                  relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
-                            }
-                        >
-                            <div><span aria-hidden className="text-lg">田</span></div>
-                            <span className="text-md">{availableSizes[1]["name"]}</span>
-                        </RadioGroup.Option>
-                        <RadioGroup.Option
-                            key={availableSizes[2]["id"]}
-                            value={availableSizes[2]["id"]}
-                            className={({ active, checked }) =>
-                                `${active
-                                    ? 'ring-2 ring-neutral-100/60 ring-offset-2 ring-offset-sky-300'
-                                    : ''
-                                }
-                                ${checked ? 'bg-cyan-700 text-neutral-100' : 'bg-neutral-100'}
-                                  relative flex flex-col w-24 justify-between cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
-                            }
-                        >
-                            <div><span aria-hidden className="text-2xl">田</span></div>
-                            <span className="text-md">{availableSizes[2]["name"]}</span>
-                        </RadioGroup.Option>
+                            >
+                                <div><span aria-hidden className={size["radioStyle"]}>田</span></div>
+                                <span className="text-md">{size["name"]}</span>
+                            </RadioGroup.Option>
+                        ))}
                     </div>
                 </RadioGroup>
             </div>
