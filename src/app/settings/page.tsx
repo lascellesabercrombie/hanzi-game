@@ -85,8 +85,8 @@ export default function Settings() {
                     })}
 
                 </ul>
-                <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" value={characterSize} onChange={(e: number) => onChooseSize(e)}>
-                    <RadioGroup.Label className="text-md">Size of practice character</RadioGroup.Label>
+                <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" id="radio-group-character-size" value={characterSize} onChange={(e: number) => onChooseSize(e)}>
+                    <RadioGroup.Label className="text-md" htmlFor="radio-group-character-size">Size of practice character</RadioGroup.Label>
                     <div className="flex gap-4 justify-center">
                         {availableSizes.map((size) => (
                             <RadioGroup.Option
