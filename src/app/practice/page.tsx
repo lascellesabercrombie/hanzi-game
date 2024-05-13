@@ -28,7 +28,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const targetDivRef = useRef<null | HTMLDivElement>(null);
-  const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', availableSizes[1]["id"]))
+  const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', 1))
   const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialStateBool('isDefinitionVisible', true))
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialStateBool('isPronunciationVisible', true))
   const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
@@ -80,8 +80,8 @@ export default function Home() {
     }
   }, [characterSet, chosenCharacter, onSelectChosenCharacter])
   useEffect(() => {
-    let value = availableSizes.find(object => object.id === characterSize)?.["value"]
-    let skeletonStyling = availableSizes.find(object => object.id === characterSize)?.["skeletonStyle"]
+    let value = availableSizes?.[characterSize]?.["value"]
+    let skeletonStyling = availableSizes?.[characterSize]?.["skeletonStyle"]
     if (value && characterSize < 2) {
       setCharacterSizeValue(value)
 

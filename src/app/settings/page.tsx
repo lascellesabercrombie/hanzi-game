@@ -15,7 +15,7 @@ interface Option {
 }
 
 export default function Settings() {
-    const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', availableSizes[1]["id"]))
+    const [characterSize, setCharacterSize] = useState(getInitialStateNumber('characterSize', 1))
     const [isDefinitionVisible, setIsDefinitionVisible] = useState(getInitialStateBool('isDefinitionVisible', true))
     const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialStateBool('isPronunciationVisible', true))
     const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
@@ -88,10 +88,10 @@ export default function Settings() {
                 <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" id="radio-group-character-size" value={characterSize} onChange={(e: number) => onChooseSize(e)}>
                     <RadioGroup.Label className="text-md" htmlFor="radio-group-character-size">Size of practice character</RadioGroup.Label>
                     <div className="flex gap-4 justify-center">
-                        {availableSizes.map((size) => (
+                        {availableSizes.map((size, index) => (
                             <RadioGroup.Option
-                                key={size["id"]}
-                                value={size["id"]}
+                                key={index}
+                                value={index}
                                 className={({ active, checked }) =>
                                     `${active
                                         ? 'ring-2 ring-neutral-100/60 ring-offset-2 ring-offset-sky-300'
