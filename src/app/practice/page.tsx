@@ -167,7 +167,9 @@ export default function Home() {
         </div>
       }
       {!showCard && characterSet.size === 0 &&
-        <p className="max-w-sm">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
+        <div className="flex justify-center p-8">
+          <p className="text-lg">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
+        </div>
       }
       <CharacterGrid />
       <DeleteModal characterSet={characterSet} isModalOpen={isModalOpen} closeModal={closeModal} onDeleteCharacter={onDeleteCharacter} />
