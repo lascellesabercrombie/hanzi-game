@@ -7,6 +7,7 @@ import { availableSizes } from "../constants/availableSizes"
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import SvgReset from "@/public/character/SvgReset";
 import SvgDelete from "@/public/character/SvgDelete";
+import SvgSpinner from "@/public/character/SvgSpinner";
 import { DeleteModal } from "@/src/components/DeleteModal";
 import { IconButton } from "@/src/components/IconButton";
 import { Title } from "@/src/components/Title";
@@ -32,6 +33,7 @@ export default function Home() {
   const [isPronunciationVisible, setIsPronunciationVisible] = useState(getInitialStateBool('isPronunciationVisible', true))
   const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
   const [characterSizeValue, setCharacterSizeValue] = useState(availableSizes[1]["value"])
+  const [characterSizeSkeletonStyle, setCharacterSizeSkeletonStyle] = useState(availableSizes[1]["skeletonStyle"])
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -79,11 +81,19 @@ export default function Home() {
   }, [characterSet, chosenCharacter, onSelectChosenCharacter])
   useEffect(() => {
     let value = availableSizes.find(object => object.id === characterSize)?.["value"]
+    let skeletonStyling = availableSizes.find(object => object.id === characterSize)?.["skeletonStyle"]
     if (value && characterSize < 2) {
       setCharacterSizeValue(value)
+
     } else if (value && characterSize >= 2) {
       setCharacterSizeValue(Math.min((window?.innerWidth - 100) || value, value))
     }
+    if (skeletonStyling && characterSize < 2) {
+      setCharacterSizeSkeletonStyle(skeletonStyling)
+    } else if (skeletonStyling && value && characterSize >= 2) {
+      setCharacterSizeSkeletonStyle((window?.innerWidth - 100) > value ? skeletonStyling : ['h-[150px] w-[150px]', 'h-[300px] w-[300px]'])
+    }
+
   }, [characterSize])
   useEffect(() => {
     if (showCard) {
@@ -144,6 +154,15 @@ export default function Home() {
             {isDefinitionVisible && <span className="max-w-80 text-base" data-testid="span-definition">{characterMetadata?.definition}</span>}
 
             {Number.isInteger(totalMistakes) && <p>You made {totalMistakes} {totalMistakes === 1 ? "mistake" : "mistakes"} on this character</p>}
+          </div>
+        </div>
+      }
+      {!showCard && chosenCharacter && characterSizeValue &&
+        <div className="flex flex-col pt-4 pb-2 px-2">
+          <div className={`bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center ${characterSizeSkeletonStyle[1]}`}>
+            <div className={characterSizeSkeletonStyle[0]}>
+              <SvgSpinner color="rgb(8 51 68)" />
+            </div>
           </div>
         </div>
       }
