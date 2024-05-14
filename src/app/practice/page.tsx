@@ -21,7 +21,7 @@ type CharacterMetadata = {
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
   const { characterSet, chosenCharacter, onSelectChosenCharacter, onSetCharacterSet } = useContext(CharacterContext) as CharacterContextType
-
+  const [isError, setIsError] = useState(false)
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
   const [isReset, setIsReset] = useState(false)
@@ -59,7 +59,8 @@ export default function Home() {
           })
         setShowCard(true)
       } catch (error) {
-        throw new Error
+        console.error("Error in fetching data")
+        setIsError(true)
       }
     };
     if (chosenCharacter) {
@@ -105,6 +106,9 @@ export default function Home() {
         const writer = HanziWriter.create(targetDiv, chosenCharacter, {
           width: characterSizeValue,
           height: characterSizeValue,
+          onLoadCharDataError: function () {
+            setIsError(true)
+          },
           padding: 0,
           showOutline: isCharacterOutlineVisible
         });
@@ -130,7 +134,11 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <Title>Practise writing Chinese characters</Title>
-      {showCard &&
+      {isError &&
+        <div className="flex justify-center p-8">
+          <p className="text-lg">Something went wrong. Perhaps try practising a different character or refreshing the page.</p>
+        </div>}
+      {showCard && !isError &&
         <div className="flex flex-col pt-4 pb-2 px-2">
           <div className="bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center">
             <div className="flex justify-center" ref={targetDivRef}></div>
@@ -157,7 +165,7 @@ export default function Home() {
           </div>
         </div>
       }
-      {!showCard && chosenCharacter && characterSizeValue &&
+      {!showCard && chosenCharacter && characterSizeValue && !isError &&
         <div className="flex flex-col pt-4 pb-2 px-2">
           <div className={`bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center ${characterSizeSkeletonStyle[1]}`}>
             <div className={characterSizeSkeletonStyle[0]}>
@@ -166,7 +174,7 @@ export default function Home() {
           </div>
         </div>
       }
-      {!showCard && characterSet.size === 0 &&
+      {!showCard && characterSet.size === 0 && !isError &&
         <div className="flex justify-center p-8">
           <p className="text-lg">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
         </div>
