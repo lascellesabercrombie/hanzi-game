@@ -124,7 +124,6 @@ export default function Home() {
 
         return () => {
           writer.cancelQuiz();
-          writer.hideCharacter();
           setTotalMistakes(null)
         };
       }
