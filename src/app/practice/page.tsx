@@ -166,9 +166,11 @@ export default function Home() {
       }
       {!showCard && chosenCharacter && characterSizeValue && !isError &&
         <div className="flex flex-col pt-4 pb-2 px-2">
-          <div className={`bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center ${characterSizeSkeletonStyle[1]}`}>
-            <div className={characterSizeSkeletonStyle[0]}>
-              <SvgSpinner color="rgb(8 51 68)" />
+          <div className={`bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center`}>
+            <div className={`flex justify-center items-center ${characterSizeSkeletonStyle[1]}`}>
+              <div className={characterSizeSkeletonStyle[0]}>
+                <SvgSpinner color="rgb(8 51 68)" />
+              </div>
             </div>
           </div>
         </div>
