@@ -6,13 +6,20 @@ interface DeleteModalProps {
     characterSet: Set<string>,
     isModalOpen: boolean,
     closeModal: () => void,
+    selectCharacterSet?: Set<string>,
     onDeleteCharacter: () => void
 }
 
-export const DeleteModal = ({ characterSet, isModalOpen, closeModal, onDeleteCharacter }: DeleteModalProps) => {
+export const DeleteModal = ({ characterSet, isModalOpen, selectCharacterSet, closeModal, onDeleteCharacter }: DeleteModalProps) => {
     const { chosenCharacter } = useContext(CharacterContext) as CharacterContextType
-
-
+    let dialogText
+    if (chosenCharacter) {
+        dialogText = `"${chosenCharacter}"`
+    } else if (selectCharacterSet?.size === 1) {
+        dialogText = `"${selectCharacterSet.values().next().value}"`
+    } else {
+        dialogText = `${selectCharacterSet?.size} characters`
+    }
     return (<Transition appear show={isModalOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
             <Transition.Child
@@ -43,7 +50,7 @@ export const DeleteModal = ({ characterSet, isModalOpen, closeModal, onDeleteCha
                                 as="h3"
                                 className="text-lg font-medium leading-6"
                             >
-                                {`Do you want to remove "${chosenCharacter}" from your library?`}
+                                {`Do you want to remove ${dialogText} from your library?`}
                             </Dialog.Title>
                             <div className="flex mt-6 justify-between">
                                 <button
