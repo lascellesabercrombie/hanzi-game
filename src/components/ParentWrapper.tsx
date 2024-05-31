@@ -2,7 +2,7 @@
 import { createContext, useEffect, useState } from "react";
 
 export interface CharacterContextType {
-    characterSet: Set<string>,
+    characterSet: Set<string> | null,
     chosenCharacter: string,
     chooseCharacter: (character: string) => void,
     updateCharacterSet: (set: Set<string>) => void
@@ -15,7 +15,7 @@ export default function ParentWrapper({
 }: {
     children: React.ReactNode
 }) {
-    const [characterSet, setCharacterSet] = useState(new Set<string>())
+    const [characterSet, setCharacterSet] = useState<null | Set<string>>(null)
     const [chosenCharacter, setChosenCharacter] = useState('')
     const chooseCharacter = (character: string) => {
         setChosenCharacter(character)
@@ -41,7 +41,7 @@ export default function ParentWrapper({
         if (characterSet) {
             localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
         }
-        if (characterSet.size === 0) {
+        if (characterSet?.size === 0) {
             setChosenCharacter('')
         }
     }, [characterSet]);

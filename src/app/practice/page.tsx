@@ -75,7 +75,8 @@ export default function Home() {
   }, [characterSet]);
 
   useEffect(() => {
-    if (characterSet.size > 0 && !characterSet.has(chosenCharacter)) {
+
+    if (characterSet && characterSet.size > 0 && !characterSet.has(chosenCharacter)) {
       chooseCharacter(characterSet.values().next().value)
     }
   }, [characterSet, chosenCharacter, chooseCharacter])
@@ -163,7 +164,7 @@ export default function Home() {
           </div>
         </div>
       }
-      {!showCard && chosenCharacter && characterSet.size > 0 && characterSizeValue && !isError &&
+      {!showCard && chosenCharacter && characterSet && characterSet.size > 0 && characterSizeValue && !isError &&
         <div className="flex flex-col pt-4 pb-2 px-2">
           <div className={`bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center`}>
             <div className={`flex justify-center items-center ${characterSizeSkeletonStyle[1]}`}>
@@ -174,7 +175,7 @@ export default function Home() {
           </div>
         </div>
       }
-      {!showCard && characterSet.size === 0 && !isError &&
+      {!showCard && characterSet && characterSet.size === 0 && !isError &&
         <div className="flex justify-center p-8">
           <p className="text-lg">Your library is empty. Add characters to be able to practise them. Alternatively, reload and your library will be restocked with five common characters.</p>
         </div>

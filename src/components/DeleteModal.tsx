@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { CharacterContext, CharacterContextType } from './ParentWrapper'
 
 interface DeleteModalProps {
-    characterSet: Set<string>,
+    characterSet: Set<string> | null,
     isModalOpen: boolean,
     closeModal: () => void,
     selectedCharacterSet?: Set<string>,
