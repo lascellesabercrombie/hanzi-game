@@ -20,7 +20,7 @@ type CharacterMetadata = {
 
 export default function Home() {
   const [showCard, setShowCard] = useState(false)
-  const { characterSet, chosenCharacter, onSelectChosenCharacter, onSetCharacterSet } = useContext(CharacterContext) as CharacterContextType
+  const { characterSet, chosenCharacter, chooseCharacter, updateCharacterSet } = useContext(CharacterContext) as CharacterContextType
   const [isError, setIsError] = useState(false)
   const [characterMetadata, setCharacterMetadata] = useState<null | CharacterMetadata>(null)
   const [totalMistakes, setTotalMistakes] = useState<null | number>(null)
@@ -38,10 +38,10 @@ export default function Home() {
     setIsModalOpen(false)
   }
 
-  const onDeleteCharacter = () => {
+  const deleteChosenCharacter = () => {
     const newSet = new Set(characterSet);
     newSet.delete(chosenCharacter);
-    onSetCharacterSet(newSet);
+    updateCharacterSet(newSet);
   }
 
   useEffect(() => {
@@ -77,9 +77,9 @@ export default function Home() {
 
   useEffect(() => {
     if (characterSet.size > 0 && !characterSet.has(chosenCharacter)) {
-      onSelectChosenCharacter(characterSet.values().next().value)
+      chooseCharacter(characterSet.values().next().value)
     }
-  }, [characterSet, chosenCharacter, onSelectChosenCharacter])
+  }, [characterSet, chosenCharacter, chooseCharacter])
   useEffect(() => {
     let value = availableSizes?.[characterSize]?.["value"]
     let skeletonStyling = availableSizes?.[characterSize]?.["skeletonStyle"]
@@ -181,7 +181,7 @@ export default function Home() {
         </div>
       }
       <CharacterGrid />
-      <DeleteModal characterSet={characterSet} isModalOpen={isModalOpen} closeModal={closeModal} onDeleteCharacter={onDeleteCharacter} />
+      <DeleteModal characterSet={characterSet} isModalOpen={isModalOpen} closeModal={closeModal} onConfirmDelete={deleteChosenCharacter} />
     </main >
   );
 }

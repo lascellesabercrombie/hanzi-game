@@ -4,8 +4,8 @@ import { createContext, useEffect, useState } from "react";
 export interface CharacterContextType {
     characterSet: Set<string>,
     chosenCharacter: string,
-    onSelectChosenCharacter: (character: string) => void,
-    onSetCharacterSet: (set: Set<string>) => void
+    chooseCharacter: (character: string) => void,
+    updateCharacterSet: (set: Set<string>) => void
 }
 
 export const CharacterContext = createContext<CharacterContextType | null>(null)
@@ -17,10 +17,10 @@ export default function ParentWrapper({
 }) {
     const [characterSet, setCharacterSet] = useState(new Set<string>())
     const [chosenCharacter, setChosenCharacter] = useState('')
-    const onSelectChosenCharacter = (character: string) => {
+    const chooseCharacter = (character: string) => {
         setChosenCharacter(character)
     }
-    const onSetCharacterSet = (set: Set<string>) => {
+    const updateCharacterSet = (set: Set<string>) => {
         setCharacterSet(new Set(set))
     }
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function ParentWrapper({
         }
     }, [characterSet]);
     return (
-        <CharacterContext.Provider value={{ characterSet, chosenCharacter, onSelectChosenCharacter, onSetCharacterSet }}>
+        <CharacterContext.Provider value={{ characterSet, chosenCharacter, chooseCharacter, updateCharacterSet }}>
             {children}
         </ CharacterContext.Provider>
     )

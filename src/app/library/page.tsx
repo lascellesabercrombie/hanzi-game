@@ -13,8 +13,8 @@ export default function Library() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [isResultsListVisible, setIsResultsListVisible] = useState(false)
     const [isSelecting, setIsSelecting] = useState(false)
-    const { characterSet, onSetCharacterSet } = useContext(CharacterContext) as CharacterContextType
-    const [selectCharacterSet, setSelectCharacterSet] = useState(new Set<string>())
+    const { characterSet, updateCharacterSet } = useContext(CharacterContext) as CharacterContextType
+    const [selectedCharacterSet, setSelectedCharacterSet] = useState(new Set<string>())
 
     const closeSearchModal = () => {
         setIsSearchModalOpen(false)
@@ -22,39 +22,39 @@ export default function Library() {
 
     const closeDeleteModal = () => {
         setIsDeleteModalOpen(false)
-        onClearSelectCharacterSet()
+        clearSelectedCharacterSet()
     }
 
-    const onSelectMultipleCharacters = (character: string) => {
-        const newSet = new Set(selectCharacterSet);
+    const selectCharacters = (character: string) => {
+        const newSet = new Set(selectedCharacterSet);
         if (!newSet.has(character)) {
             newSet.add(character);
         } else {
             newSet.delete(character)
         }
-        setSelectCharacterSet(newSet);
+        setSelectedCharacterSet(newSet);
     }
 
-    const onClearSelectCharacterSet = () => {
-        const newSet = new Set(selectCharacterSet)
+    const clearSelectedCharacterSet = () => {
+        const newSet = new Set(selectedCharacterSet)
         newSet.clear()
-        setSelectCharacterSet(newSet)
+        setSelectedCharacterSet(newSet)
     }
 
-    const onDeleteSelectedCharacters = () => {
+    const deleteSelectedCharacters = () => {
         const newSet = new Set(characterSet);
         newSet.forEach((element) => {
-            if (selectCharacterSet.has(element)) {
+            if (selectedCharacterSet.has(element)) {
                 newSet.delete(element)
             }
         })
-        onSetCharacterSet(newSet)
+        updateCharacterSet(newSet)
         setIsSelecting(false)
         //below should be possible when more generally implemented across browsers
-        // onSetCharacterSet(characterSet.difference(selectCharacterSet));
+        // onSetCharacterSet(characterSet.difference(selectedCharacterSet));
     }
 
-    const onSetIsResultsListVisible = (bool: boolean) => {
+    const updateIsResultsListVisible = (bool: boolean) => {
         setIsResultsListVisible(bool)
     }
 
@@ -63,10 +63,10 @@ export default function Library() {
         setIsSearchModalOpen(true)
     }
 
-    const onAddToCharacterSet = (itemToAdd: string) => {
+    const addToCharacterSet = (itemToAdd: string) => {
         const newSet = new Set(characterSet);
         newSet.add(itemToAdd);
-        onSetCharacterSet(newSet);
+        updateCharacterSet(newSet);
     }
 
     return (
@@ -81,14 +81,14 @@ export default function Library() {
                     <div><button className="bg-cyan-800 flex rounded-lg px-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
                         onClick={() => {
                             setIsSelecting(false)
-                            onClearSelectCharacterSet()
+                            clearSelectedCharacterSet()
                         }}
                     >
                         <span>Cancel</span>
                     </button>
                         <button
                             className="bg-cyan-800 disabled:bg-slate-600 flex rounded-lg pl-2 pr-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
-                            disabled={selectCharacterSet.size <= 0}
+                            disabled={selectedCharacterSet.size <= 0}
                             onClick={() => { setIsDeleteModalOpen(true) }}>
                             <SvgDelete className="w-8 h-8 *:fill-slate-100" />
                             <span>Delete</span>
@@ -102,13 +102,13 @@ export default function Library() {
                     >
                         <span>Select</span>
                     </button>}
-                {isSelecting && selectCharacterSet.size > 0 &&
-                    <p>{`${selectCharacterSet.size} characters selected`}</p>}
+                {isSelecting && selectedCharacterSet.size > 0 &&
+                    <p>{`${selectedCharacterSet.size} characters selected`}</p>}
                 <h2>Press a character to practise writing it</h2>
             </div>
-            <CharacterGrid selectCharacterSet={selectCharacterSet} onSelectMultipleCharacters={onSelectMultipleCharacters} isSelecting={isSelecting} />
-            <SearchModal isModalOpen={isSearchModalOpen} closeModal={closeSearchModal} isResultsListVisible={isResultsListVisible} onSetIsResultsListVisible={onSetIsResultsListVisible} onAddToCharacterSet={onAddToCharacterSet} />
-            <DeleteModal characterSet={characterSet} isModalOpen={isDeleteModalOpen} selectCharacterSet={selectCharacterSet} closeModal={closeDeleteModal} onDeleteCharacter={onDeleteSelectedCharacters} />
+            <CharacterGrid selectedCharacterSet={selectedCharacterSet} selectCharacters={selectCharacters} isSelecting={isSelecting} />
+            <SearchModal isModalOpen={isSearchModalOpen} closeModal={closeSearchModal} isResultsListVisible={isResultsListVisible} updateIsResultsListVisible={updateIsResultsListVisible} addToCharacterSet={addToCharacterSet} />
+            <DeleteModal characterSet={characterSet} isModalOpen={isDeleteModalOpen} selectedCharacterSet={selectedCharacterSet} closeModal={closeDeleteModal} onConfirmDelete={deleteSelectedCharacters} />
         </main>
     )
 }

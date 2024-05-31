@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { availableSizes } from "../constants/availableSizes"
 import { getInitialStateBool } from "@/src/helpers/getInitialStateBool"
 import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber"
-import { onToggleSetting } from "@/src/helpers/onToggleSetting"
+import { handleToggleSetting } from "@/src/helpers/handleToggleSetting"
 import { Title } from "@/src/components/Title"
 import { RadioGroup, Switch } from "@headlessui/react"
 
@@ -21,7 +21,7 @@ export default function Settings() {
     const [isCharacterOutlineVisible, setIsCharacterOutlineVisible] = useState(getInitialStateBool('isCharacterOutlineVisible', true))
     const [options, setOptions] = useState<Array<Option>>([])
 
-    function onChooseSize(size: number) {
+    function updateSize(size: number) {
         setCharacterSize(size)
         localStorage.setItem('characterSize', size.toString())
     }
@@ -68,7 +68,7 @@ export default function Settings() {
                                                 className={`${state ? 'bg-cyan-700' : 'bg-slate-500'}
                                             relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-neutral-100/75`}
                                                 id={`checkbox-${name}`}
-                                                onChange={() => onToggleSetting(localStorageKey, state, setState)}
+                                                onChange={() => handleToggleSetting(localStorageKey, state, setState)}
                                             >
                                                 <span
                                                     aria-hidden="true"
@@ -85,7 +85,7 @@ export default function Settings() {
                     })}
 
                 </ul>
-                <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" id="radio-group-character-size" value={characterSize} onChange={(e: number) => onChooseSize(e)}>
+                <RadioGroup className="flex flex-col gap-4 py-4 px-6 border-2 border-slate-200 rounded-md text-center" id="radio-group-character-size" value={characterSize} onChange={(e: number) => updateSize(e)}>
                     <RadioGroup.Label className="text-md" htmlFor="radio-group-character-size">Size of practice character</RadioGroup.Label>
                     <div className="flex gap-4 justify-center">
                         {availableSizes.map((size, index) => (

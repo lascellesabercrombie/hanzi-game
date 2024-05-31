@@ -8,8 +8,8 @@ interface SearchModalProps {
     isModalOpen: boolean,
     closeModal: () => void,
     isResultsListVisible: boolean,
-    onSetIsResultsListVisible: (bool: boolean) => void,
-    onAddToCharacterSet: (itemToAdd: string) => void
+    updateIsResultsListVisible: (bool: boolean) => void,
+    addToCharacterSet: (itemToAdd: string) => void
 }
 
 interface SearchResult {
@@ -24,7 +24,7 @@ interface FetchDefinitionResultItem {
     kmandarin?: string
 }
 
-export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onSetIsResultsListVisible, onAddToCharacterSet }: SearchModalProps) => {
+export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, updateIsResultsListVisible, addToCharacterSet }: SearchModalProps) => {
     const { chosenCharacter } = useContext(CharacterContext) as CharacterContextType
     const [searchResults, setSearchResults] = useState<null | Array<SearchResult>>(null)
     return (<Transition appear show={isModalOpen} as={Fragment}>
@@ -64,11 +64,11 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                                     <form action={(formData) => {
                                         const query = formData.get("newCharacter");
                                         if (typeof query === "string" && validateInput(query) === "chinese") {
-                                            onAddToCharacterSet(query)
+                                            addToCharacterSet(query)
                                             closeModal()
                                         }
                                         if (typeof query === "string" && validateInput(query) === "english") {
-                                            onSetIsResultsListVisible(true)
+                                            updateIsResultsListVisible(true)
                                             setSearchResults(null);
                                             fetch(`api/search-by-definition/?query=${query}`)
                                                 .then((response) => {
@@ -103,7 +103,7 @@ export const SearchModal = ({ isModalOpen, closeModal, isResultsListVisible, onS
                                 {searchResults && searchResults.map((searchItem, index) => {
                                     return (
                                         <button className="bg-slate-200 text-cyan-950 flex gap-4 rounded-xl drop-shadow-md hover:drop-shadow-lg active:drop-shadow-sm px-4 py-2 items-center" key={`search-result-${index}`} onClick={() => {
-                                            onAddToCharacterSet(searchItem["character"])
+                                            addToCharacterSet(searchItem["character"])
                                             setSearchResults([])
                                             closeModal()
                                         }}>

@@ -6,19 +6,19 @@ interface DeleteModalProps {
     characterSet: Set<string>,
     isModalOpen: boolean,
     closeModal: () => void,
-    selectCharacterSet?: Set<string>,
-    onDeleteCharacter: () => void
+    selectedCharacterSet?: Set<string>,
+    onConfirmDelete: () => void
 }
 
-export const DeleteModal = ({ characterSet, isModalOpen, selectCharacterSet, closeModal, onDeleteCharacter }: DeleteModalProps) => {
+export const DeleteModal = ({ characterSet, isModalOpen, selectedCharacterSet, closeModal, onConfirmDelete }: DeleteModalProps) => {
     const { chosenCharacter } = useContext(CharacterContext) as CharacterContextType
     let dialogText
     if (chosenCharacter) {
         dialogText = `"${chosenCharacter}"`
-    } else if (selectCharacterSet?.size === 1) {
-        dialogText = `"${selectCharacterSet.values().next().value}"`
+    } else if (selectedCharacterSet?.size === 1) {
+        dialogText = `"${selectedCharacterSet.values().next().value}"`
     } else {
-        dialogText = `${selectCharacterSet?.size} characters`
+        dialogText = `${selectedCharacterSet?.size} characters`
     }
     return (<Transition appear show={isModalOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -69,7 +69,7 @@ export const DeleteModal = ({ characterSet, isModalOpen, selectCharacterSet, clo
                                         if (characterSet.size == 1) {
                                             localStorage.setItem('characters', JSON.stringify({}));
                                         }
-                                        onDeleteCharacter()
+                                        onConfirmDelete()
                                         closeModal()
                                     }}
                                 >
