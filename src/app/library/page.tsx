@@ -78,29 +78,29 @@ export default function Library() {
                     <span>Add character to library</span>
                 </button>
                 {isSelecting ?
-                    <button className="bg-cyan-800 flex rounded-lg px-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
+                    <div><button className="bg-cyan-800 flex rounded-lg px-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
                         onClick={() => {
                             setIsSelecting(false)
                             onClearSelectCharacterSet()
                         }}
                     >
                         <span>Cancel</span>
-                    </button> :
-
+                    </button>
+                        <button
+                            className="bg-cyan-800 disabled:bg-slate-600 flex rounded-lg pl-2 pr-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
+                            disabled={selectCharacterSet.size <= 0}
+                            onClick={() => { setIsDeleteModalOpen(true) }}>
+                            <SvgDelete className="w-8 h-8 *:fill-slate-100" />
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                    :
                     <button className="bg-cyan-800 flex rounded-lg px-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
                         onClick={() => {
                             setIsSelecting(true)
                         }}
                     >
                         <span>Select</span>
-                    </button>}
-                {isSelecting &&
-                    <button
-                        className="bg-cyan-800 disabled:bg-slate-600 flex rounded-lg pl-2 pr-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
-                        disabled={selectCharacterSet.size <= 0}
-                        onClick={() => { setIsDeleteModalOpen(true) }}>
-                        <SvgDelete className="w-8 h-8 *:fill-slate-100" />
-                        <span>Delete</span>
                     </button>}
                 {isSelecting && selectCharacterSet.size > 0 &&
                     <p>{`${selectCharacterSet.size} characters selected`}</p>}
