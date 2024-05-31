@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { CharacterContext, CharacterContextType } from './ParentWrapper'
 
@@ -12,14 +12,18 @@ interface DeleteModalProps {
 
 export const DeleteModal = ({ characterSet, isModalOpen, selectedCharacterSet, closeModal, onConfirmDelete }: DeleteModalProps) => {
     const { chosenCharacter } = useContext(CharacterContext) as CharacterContextType
-    let dialogText
-    if (chosenCharacter) {
-        dialogText = `"${chosenCharacter}"`
-    } else if (selectedCharacterSet?.size === 1) {
-        dialogText = `"${selectedCharacterSet.values().next().value}"`
-    } else {
-        dialogText = `${selectedCharacterSet?.size} characters`
-    }
+    const [dialogText, setDialogText] = useState("")
+
+    useEffect(() => {
+        if (selectedCharacterSet && selectedCharacterSet.size === 1) {
+            setDialogText(`"${selectedCharacterSet.values().next().value}"`)
+        } else if (selectedCharacterSet && selectedCharacterSet.size > 1) {
+            setDialogText(`${selectedCharacterSet.size} characters`)
+        } else if (chosenCharacter) {
+            setDialogText(`"${chosenCharacter}"`)
+        }
+    }, [chosenCharacter, selectedCharacterSet])
+
     return (<Transition appear show={isModalOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
             <Transition.Child
