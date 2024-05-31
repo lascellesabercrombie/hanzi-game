@@ -89,6 +89,7 @@ export default function Library() {
                         </button>
                         <button
                             className="bg-cyan-800 disabled:bg-slate-600 flex rounded-lg pl-2 pr-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
+                            data-testid="button-remove-multiple-characters"
                             disabled={selectedCharacterSet.size <= 0}
                             onClick={() => { setIsDeleteModalOpen(true) }}>
                             <SvgDelete className="w-8 h-8 *:fill-slate-100" />
@@ -97,6 +98,7 @@ export default function Library() {
                     </div>
                     :
                     <button className="bg-cyan-800 flex rounded-lg px-4 py-2 w-fit drop-shadow-md hover:drop-shadow-xl active:drop-shadow-sm text-slate-200 font-medium justify-center items-center"
+                        data-testid="button-select"
                         onClick={() => {
                             setIsSelecting(true)
                         }}
@@ -104,7 +106,7 @@ export default function Library() {
                         <span>Select</span>
                     </button>}
                 {isSelecting && selectedCharacterSet.size > 0 &&
-                    <p>{`${selectedCharacterSet.size} characters selected`}</p>}
+                    <p data-testid="p-characters-selected">{`${selectedCharacterSet.size} characters selected`}</p>}
                 <h2>Press a character to practise writing it</h2>
             </div>
             <CharacterGrid selectedCharacterSet={selectedCharacterSet} selectCharacters={selectCharacters} isSelecting={isSelecting} />
