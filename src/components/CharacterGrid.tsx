@@ -9,7 +9,6 @@ interface CharacterGridProps {
 }
 
 export const CharacterGrid = ({ isSelecting = false, selectedCharacterSet, selectCharacters }: CharacterGridProps) => {
-    console.log('isSelecting', isSelecting)
     const selectedStyling = "border-double border-4 border-cyan-950"
     const { characterSet, chooseCharacter } = useContext(CharacterContext) as CharacterContextType
     const router = useRouter()
