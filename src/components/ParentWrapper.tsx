@@ -38,8 +38,11 @@ export default function ParentWrapper({
     }, [])
 
     useEffect(() => {
-        if (characterSet.size > 0) {
+        if (characterSet) {
             localStorage.setItem('characters', JSON.stringify(Array.from(characterSet)));
+        }
+        if (characterSet.size === 0) {
+            setChosenCharacter('')
         }
     }, [characterSet]);
     return (

@@ -69,10 +69,9 @@ export default function Home() {
   }, [chosenCharacter]);
 
   useEffect(() => {
-    if (characterSet.size === 0) {
+    if (!characterSet || characterSet.size === 0) {
       setShowCard(false)
     }
-
   }, [characterSet]);
 
   useEffect(() => {
@@ -164,7 +163,7 @@ export default function Home() {
           </div>
         </div>
       }
-      {!showCard && chosenCharacter && characterSizeValue && !isError &&
+      {!showCard && chosenCharacter && characterSet.size > 0 && characterSizeValue && !isError &&
         <div className="flex flex-col pt-4 pb-2 px-2">
           <div className={`bg-neutral-100 flex p-5 mx-auto rounded-xl shadow-lg items-center justify-center`}>
             <div className={`flex justify-center items-center ${characterSizeSkeletonStyle[1]}`}>

@@ -70,9 +70,6 @@ export const DeleteModal = ({ characterSet, isModalOpen, selectedCharacterSet, c
                                     data-testid="button-confirm"
                                     className="inline-flex justify-center rounded-md border border-red-700 bg-neutral-100  px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-700 hover:text-neutral-100 hover:border-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     onClick={() => {
-                                        if (characterSet.size == 1) {
-                                            localStorage.setItem('characters', JSON.stringify({}));
-                                        }
                                         onConfirmDelete()
                                         closeModal()
                                     }}
