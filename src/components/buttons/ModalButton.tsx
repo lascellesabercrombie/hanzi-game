@@ -15,7 +15,7 @@ export function ModalButton({ ariaLabel, dataTestId, isDeleteStyle = false, disa
 
     return (
         <button aria-disabled={disabled} data-testid={dataTestId} disabled={disabled}
-            className={`inline-flex justify-center rounded-md border bg-neutral-100 px-4 py-2 text-sm font-medium   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${isDeleteStyle ? modalButtonStyle.deleteStyling : modalButtonStyle.standardStyling}`}
+            className={`inline-flex justify-center rounded-md border bg-neutral-100 drop-shadow-md hover:drop-shadow-lg active:drop-shadow-sm px-4 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${isDeleteStyle ? modalButtonStyle.deleteStyling : modalButtonStyle.standardStyling}`}
             aria-label={ariaLabel} onClick={onClick}>
             {children}
         </button>
