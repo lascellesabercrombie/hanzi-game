@@ -3,8 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
 import { SearchModal } from "@/src/components/SearchModal";
 import { Title } from "@/src/components/Title";
-import SvgAdd from "@/public/character/SvgAdd";
-import SvgDelete from "@/public/character/SvgDelete";
+import { SvgAdd } from "@/public/character/SvgAdd";
+import { SvgDelete } from "@/public/character/SvgDelete";
 import { CharacterGrid } from "@/src/components/CharacterGrid";
 import { DeleteModal } from "@/src/components/DeleteModal";
 

@@ -2,9 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import SvgLibrary from "../../public/navbar/SvgLibrary"
-import SvgPractice from "../../public/navbar/SvgPractice"
-import SvgSettings from "../../public/navbar/SvgSettings"
+import { SvgLibrary } from "../../public/navbar/SvgLibrary"
+import { SvgPractice } from "../../public/navbar/SvgPractice"
+import { SvgSettings } from "../../public/navbar/SvgSettings"
 import { ReactElement } from 'react'
 
 type NavBarItemType = [string, string, ReactElement<any, any>]

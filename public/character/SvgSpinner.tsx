@@ -1,6 +1,6 @@
-import React, { SVGProps } from "react";
+import { SVGProps } from "react";
 
-export default function SvgSpinner({
+export function SvgSpinner({
     width = 24,
     height = 24,
     dur = "0.75s",

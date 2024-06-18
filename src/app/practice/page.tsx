@@ -5,9 +5,9 @@ import { getInitialStateBool } from "@/src/helpers/getInitialStateBool";
 import { getInitialStateNumber } from "@/src/helpers/getInitialStateNumber";
 import { availableSizes } from "../constants/availableSizes"
 import { CharacterContext, CharacterContextType } from "../../components/ParentWrapper";
-import SvgReset from "@/public/character/SvgReset";
-import SvgDelete from "@/public/character/SvgDelete";
-import SvgSpinner from "@/public/character/SvgSpinner";
+import { SvgReset } from "@/public/character/SvgReset";
+import { SvgDelete } from "@/public/character/SvgDelete";
+import { SvgSpinner } from "@/public/character/SvgSpinner";
 import { DeleteModal } from "@/src/components/DeleteModal";
 import { IconButton } from "@/src/components/IconButton";
 import { Title } from "@/src/components/Title";

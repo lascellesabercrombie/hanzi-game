@@ -2,7 +2,7 @@ import { Fragment, useContext, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { CharacterContext, CharacterContextType } from './ParentWrapper'
 import { validateInput } from '../helpers/validateInput';
-import SvgSearch from '@/public/character/SvgSearch';
+import { SvgSearch } from '@/public/character/SvgSearch';
 
 interface SearchModalProps {
     isModalOpen: boolean,
