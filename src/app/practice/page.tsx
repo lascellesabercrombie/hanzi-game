@@ -9,7 +9,7 @@ import { SvgReset } from "@/public/character/SvgReset";
 import { SvgDelete } from "@/public/character/SvgDelete";
 import { SvgSpinner } from "@/public/character/SvgSpinner";
 import { DeleteModal } from "@/src/components/DeleteModal";
-import { IconButton } from "@/src/components/IconButton";
+import { IconButton } from "@/src/components/buttons/IconButton";
 import { Title } from "@/src/components/Title";
 import { CharacterGrid } from "@/src/components/CharacterGrid";
 

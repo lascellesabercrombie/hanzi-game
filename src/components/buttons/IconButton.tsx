@@ -1,10 +1,9 @@
-interface IconButtonProps {
+import { ButtonProps } from "./button.types"
+
+interface IconButtonProps extends ButtonProps {
     ariaLabel: string,
-    dataTestId: string,
-    disabled?: boolean,
+    children: React.ReactElement,
     size?: number,
-    onClick: () => void,
-    children: React.ReactElement
 }
 
 export const IconButton = ({ ariaLabel, dataTestId, disabled = false, size = 8, onClick, children }: IconButtonProps) => {

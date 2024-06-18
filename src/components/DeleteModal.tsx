@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { CharacterContext, CharacterContextType } from './ParentWrapper'
+import { ModalButton } from './buttons/ModalButton';
 
 interface DeleteModalProps {
     characterSet: Set<string> | null,
@@ -57,25 +58,22 @@ export const DeleteModal = ({ characterSet, isModalOpen, selectedCharacterSet, c
                                 {`Do you want to remove ${dialogText} from your library?`}
                             </Dialog.Title>
                             <div className="flex mt-6 justify-between">
-                                <button
-                                    type="button"
-                                    data-testid="button-cancel"
-                                    className="inline-flex justify-center rounded-md border border-cyan-950 bg-neutral-100 px-4 py-2 text-sm font-medium text-cyan-950 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                <ModalButton
+                                    dataTestId="button-cancel"
                                     onClick={closeModal}
                                 >
                                     Cancel
-                                </button>
-                                <button
-                                    type="button"
-                                    data-testid="button-confirm"
-                                    className="inline-flex justify-center rounded-md border border-red-700 bg-neutral-100  px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-700 hover:text-neutral-100 hover:border-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                </ModalButton>
+                                <ModalButton
+                                    dataTestId="button-confirm"
+                                    isDeleteStyle
                                     onClick={() => {
                                         onConfirmDelete()
                                         closeModal()
                                     }}
                                 >
                                     Yes, remove
-                                </button>
+                                </ModalButton>
                             </div>
                         </Dialog.Panel>
                     </Transition.Child>
