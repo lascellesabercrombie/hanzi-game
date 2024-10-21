@@ -14,7 +14,7 @@ I made the app with NextJS. Initially, I used the [Chinese Character Web API (HT
 
 ## Design
 
-The design for the practice page was heavily indebted to Chineasy's character practice UI. For the navigation bar design, I drew from the navigation bar in Duolingo's app. For button design, I was influenced by the work of the design team from my time with Lyfta Education. The modals, and the switches on the settings page, took advantage of templates as well as functionality provided by [Headless UI](https://headlessui.com/). The carousel was created using [React Slick](https://react-slick.neostack.com/). 
+The design for the practice page was heavily indebted to Chineasy's character practice UI. For the navigation bar design, I drew from the navigation bar in Duolingo's app. For button design, I was influenced by the work of the design team from my time with Lyfta Education. The modals, and the switches on the settings page, took advantage of templates as well as functionality provided by [Headless UI](https://headlessui.com/).
 
 ## Screenshots
 
